@@ -1,0 +1,14 @@
+{
+  "name": "zhengang-tower",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "dev:client": "pnpm --filter zhengang-tower-client run dev:weapp",
+    "build:client": "pnpm --filter zhengang-tower-client run build:weapp"
+  },
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=7"
+  }
+}

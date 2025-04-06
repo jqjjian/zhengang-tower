@@ -1,0 +1,37 @@
+.index {
+    padding: 20px;
+
+    .duxui-demo {
+        margin-top: 30px;
+
+        .section-title {
+            display: block;
+            margin: 20px 0 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .icon-container {
+            display: flex;
+            align-items: center;
+
+            .dux-icon {
+                margin-right: 20px;
+                font-size: 24px;
+            }
+        }
+    }
+
+    /* 图标样式 */
+    .demo-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+    }
+
+    /* NutUI图标容器样式 */
+    .nut-icon {
+        display: inline-flex !important;
+    }
+}

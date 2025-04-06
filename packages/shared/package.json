@@ -1,0 +1,17 @@
+{
+  "name": "@zhengang-tower/shared",
+  "version": "1.0.0",
+  "description": "共享的类型定义和通用工具",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  }
+} 
