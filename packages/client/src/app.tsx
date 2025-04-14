@@ -17,11 +17,9 @@ export default function App(props) {
     console.log('初始化three-platformize全局配置')
 
     try {
-      // @ts-ignore - 忽略类型错误
-      if (threePlatformize.injectTaroApi) {
-        // @ts-ignore - 忽略类型错误
-        threePlatformize.injectTaroApi()
-        console.log('three-platformize Taro API注入成功')
+      // three-platformize库不再提供injectTaroApi方法，直接使用PLATFORM
+      if (threePlatformize.PLATFORM) {
+        console.log('three-platformize已加载，无需额外初始化')
       }
     } catch (error) {
       console.error('初始化three-platformize失败:', error)

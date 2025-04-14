@@ -44,6 +44,7 @@ interface ThreeModelProps {
     enableControls?: boolean; // 是否启用交互控制
     showAxesHelper?: boolean; // 是否显示坐标系辅助线
     fullscreen?: boolean; // 是否全屏显示
+    onLoad?: () => void; // 模型加载完成回调
 }
 
 /**
@@ -59,7 +60,8 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
     showErrorModel = false,
     enableControls = true,
     showAxesHelper = false,
-    fullscreen = false
+    fullscreen = false,
+    onLoad
 }) => {
     const [canvasId] = useState(`model-canvas-${Date.now()}`);
     const [isLoading, setIsLoading] = useState(true);
@@ -95,7 +97,14 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
     // 处理触摸事件，传递给平台处理
     const handleTouchEvent = (e: any) => {
         if (platformRef.current) {
+            // 重要：将Taro的触摸事件转换为three-platformize可以理解的格式
+            // 这确保了OrbitControls可以正确处理多指缩放
             platformRef.current.dispatchTouchEvent(e);
+
+            // 记录日志帮助调试
+            if (e.type === 'touchstart' && e.touches && e.touches.length === 2) {
+                console.log('检测到两指触摸，可能是缩放手势');
+            }
         }
     };
 
@@ -161,7 +170,12 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     }
 
                     // 检查是否支持webgl上下文
-                    const gl = canvas.getContext('webgl');
+                    const gl = canvas.getContext('webgl', {
+                        alpha: true, // 确保支持透明
+                        antialias: true,
+                        premultipliedAlpha: false, // 关闭premultipliedAlpha以确保alpha处理正确
+                        preserveDrawingBuffer: false
+                    });
                     if (!gl) {
                         throw new Error('当前环境不支持WebGL');
                     }
@@ -213,6 +227,12 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     })
                 });
                 renderer.setSize(windowSize.width, windowSize.height);
+                // 设置渲染器支持透明背景
+                renderer.setClearColor(0x000000, 0); // 设置透明度为0
+                // 启用色调映射，使场景整体更暗且带黄色调
+                renderer.outputEncoding = THREE.sRGBEncoding;
+                renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                renderer.toneMappingExposure = 0.65; // 保持适当曝光度
                 // 禁用阴影
                 renderer.shadowMap.enabled = false;
                 rendererRef.current = renderer;
@@ -234,9 +254,9 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
 
                 // 创建相机
                 const camera = new THREE.PerspectiveCamera(
-                    75, windowSize.width / windowSize.height, 0.1, 1000
+                    60, windowSize.width / windowSize.height, 0.1, 1000
                 );
-                camera.position.z = 5;
+                camera.position.z = 10; // 进一步增加初始距离
                 cameraRef.current = camera;
 
                 // 添加控制器
@@ -245,18 +265,32 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     controls.enableDamping = true;
                     controls.dampingFactor = 0.25; // 动态阻尼系数，鼠标拖拽旋转灵敏度
                     controls.enableZoom = true;    // 允许缩放
+                    controls.zoomSpeed = 1.2;      // 增加缩放速度
+                    controls.minDistance = 1;      // 设置最小缩放距离
+                    controls.maxDistance = 30;     // 增加最大缩放距离
                     controlsRef.current = controls;
                 }
 
                 // 添加灯光 - 不产生阴影
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+                const ambientLight = new THREE.AmbientLight(0xfff0c0, 0.65); // 改为暖黄色环境光
                 scene.add(ambientLight);
 
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+                // 添加直射光，模拟太阳光
+                const directionalLight = new THREE.DirectionalLight(0xffdc8a, 0.45); // 改为金黄色直射光
                 directionalLight.position.set(1, 1, 1);
-                // 禁用阴影
                 directionalLight.castShadow = false;
                 scene.add(directionalLight);
+
+                // 添加第二个方向光，照亮模型背面
+                const directionalLight2 = new THREE.DirectionalLight(0xffe082, 0.3); // 改为浅黄色光
+                directionalLight2.position.set(-1, 0.5, -1);
+                directionalLight2.castShadow = false;
+                scene.add(directionalLight2);
+
+                // 添加顶部点光源，增强整体亮度
+                const topLight = new THREE.PointLight(0xffeec0, 0.25); // 改为淡黄色点光源
+                topLight.position.set(0, 5, 0);
+                scene.add(topLight);
 
                 // 添加坐标系辅助线
                 if (showAxesHelper) {
@@ -264,32 +298,21 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     scene.add(axesHelper);
                 }
 
-                // 创建一个默认的立方体
-                const createCube = () => {
-                    console.log('创建默认立方体');
-                    const geometry = new THREE.BoxGeometry(1, 1, 1);
-                    const material = new THREE.MeshBasicMaterial({
-                        color: modelColor
-                    });
-                    const cube = new THREE.Mesh(geometry, material);
-                    // 禁用阴影
-                    cube.castShadow = false;
-                    cube.receiveShadow = false;
-                    scene.add(cube);
-                    modelRef.current = cube;
-
-                    // 设置动画循环
-                    const animate = () => {
+                // 设置动画循环函数（将在模型加载后调用）
+                const createAnimationLoop = (model) => {
+                    return () => {
                         if (!isMounted) return;
 
                         try {
                             if (controlsRef.current) {
                                 controlsRef.current.update();
-                            } else if (autoRotate && cube) {
+                            } else if (autoRotate && model) {
                                 // 如果没有控制器但启用了自动旋转
-                                cube.rotation.y += 0.01;
+                                model.rotation.y += 0.01;
                             }
 
+                            // 在每一帧渲染前清除画布
+                            renderer.clear();
                             renderer.render(scene, camera);
                             // @ts-ignore
                             animationRef.current = THREE.$requestAnimationFrame(animate);
@@ -297,13 +320,9 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                             console.error('动画渲染错误:', e);
                         }
                     };
-
-                    animate();
-                    setIsLoading(false);
                 };
 
-                // 创建默认立方体（先显示一个，然后尝试加载模型）
-                createCube();
+                let animate;
 
                 // 加载3D模型
                 try {
@@ -311,7 +330,9 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     console.log('正在准备加载模型:', modelUrl);
 
                     if (!modelUrl || modelUrl === '') {
-                        console.log('未提供有效的模型URL，已显示默认立方体');
+                        console.log('未提供有效的模型URL，显示加载失败');
+                        setLoadError('未提供有效的模型URL');
+                        setIsLoading(false);
                         return;
                     }
 
@@ -346,11 +367,6 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                             try {
                                 if (!isMounted) return;
 
-                                // 模型加载成功，移除默认立方体
-                                if (modelRef.current) {
-                                    scene.remove(modelRef.current);
-                                }
-
                                 // 添加加载的模型
                                 console.log('模型加载成功:', gltf);
                                 const model = gltf.scene;
@@ -361,9 +377,35 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                                         child.castShadow = false;
                                         child.receiveShadow = false;
 
-                                        // 可选：将材质更改为不产生阴影的材质
+                                        // 处理材质，优化光照响应
                                         if (child.material) {
-                                            child.material.shadowSide = THREE.DoubleSide;
+                                            // 确保材质双面可见
+                                            child.material.side = THREE.DoubleSide;
+
+                                            // 如果是MeshStandardMaterial，调整其属性
+                                            if (child.material.type === 'MeshStandardMaterial') {
+                                                child.material.roughness = Math.min(child.material.roughness, 0.85);
+                                                child.material.metalness = Math.max(child.material.metalness, 0.1);
+                                                child.material.envMapIntensity = 0.75;
+                                            }
+
+                                            // 为所有材质增加少量的环境色
+                                            if (child.material.color) {
+                                                const baseColor = child.material.color.clone();
+
+                                                // 向材质颜色添加黄色调
+                                                child.material.color.r = Math.min(1, baseColor.r * 1.05);
+                                                child.material.color.g = Math.min(1, baseColor.g * 1.03);
+                                                child.material.color.b = Math.max(0, baseColor.b * 0.95);
+
+                                                // 添加黄色调的自发光
+                                                child.material.emissive = new THREE.Color(
+                                                    0.05,
+                                                    0.03,
+                                                    0.01
+                                                );
+                                            }
+
                                             child.material.needsUpdate = true;
                                         }
                                     }
@@ -383,34 +425,22 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
 
                                 // 根据模型大小调整相机位置
                                 const maxDim = Math.max(size.x, size.y, size.z);
-                                camera.position.z = maxDim * 2.5 || 5;
+                                // 进一步增大系数，使模型显示更小
+                                camera.position.z = maxDim * 3.2 || 8;
 
-                                // 重新设置动画循环
-                                const animate = () => {
-                                    if (!isMounted) return;
-
-                                    try {
-                                        if (controlsRef.current) {
-                                            controlsRef.current.update();
-                                        } else if (autoRotate && model) {
-                                            // 如果没有控制器但启用了自动旋转
-                                            model.rotation.y += 0.01;
-                                        }
-
-                                        renderer.render(scene, camera);
-                                        // @ts-ignore
-                                        animationRef.current = THREE.$requestAnimationFrame(animate);
-                                    } catch (e) {
-                                        console.error('动画渲染错误:', e);
-                                    }
-                                };
-
+                                // 创建并开始动画循环
+                                animate = createAnimationLoop(model);
                                 animate();
                                 setIsLoading(false);
+
+                                // 调用加载完成回调
+                                if (onLoad && typeof onLoad === 'function') {
+                                    onLoad();
+                                }
                             } catch (e) {
                                 console.error('处理加载成功的模型时发生错误:', e);
-                                // 已经显示了默认立方体，不需要处理错误
-                                console.log('继续使用默认立方体');
+                                setLoadError(`处理模型时发生错误: ${(e as Error).message}`);
+                                setIsLoading(false);
                             }
                         },
                         (progress) => {
@@ -423,14 +453,14 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                             // 加载错误处理
                             if (!isMounted) return;
                             console.error('模型加载失败:', error);
-                            // 已经显示了默认立方体，只记录错误不显示
-                            console.log('继续使用默认立方体');
+                            setLoadError(`模型加载失败: ${error.message}`);
+                            setIsLoading(false);
                         }
                     );
                 } catch (loaderError) {
                     console.error('创建或使用GLTFLoader时发生错误:', loaderError);
-                    // 已经显示了默认立方体，不需要额外处理
-                    console.log('继续使用默认立方体');
+                    setLoadError(`加载器初始化失败: ${(loaderError as Error).message}`);
+                    setIsLoading(false);
                 }
 
             } catch (error) {
@@ -491,6 +521,11 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                 <div className="loading-container">
                     <div className="loading-spinner"></div>
                     <p className="loading-text">加载中...</p>
+                </div>
+            )}
+            {!isLoading && !loadError && enableControls && (
+                <div className="zoom-tip">
+                    <p>双指缩放可调整模型大小</p>
                 </div>
             )}
             {loadError && (

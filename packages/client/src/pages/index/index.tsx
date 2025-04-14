@@ -1,5 +1,5 @@
 import { View, Image, Text } from '@tarojs/components'
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Taro, { useDidShow, useDidHide } from '@tarojs/taro'
 // 直接从根模块导入而不是按需加载
 import { Star, Location, Service } from '@nutui/icons-react-taro'
@@ -11,6 +11,8 @@ import './index.scss'
 import { RESOURCE_URL } from '@/config'
 import { wxLogin, checkLogin } from '@/services/auth'
 import NavBtns from '@/components/NavBtns'
+// 直接导入ThreeModel组件
+import ThreeModel from '../../subPackages/3d-model/components/ThreeModel'
 
 // 调试图标组件
 console.log('Star组件:', Star)
@@ -21,33 +23,9 @@ export default function Index() {
     // 登录状态
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [isModelReady, setIsModelReady] = useState(false)
-    const [ThreeModel, setThreeModel] = useState<any>(null)
+    const [isModelLoading, setIsModelLoading] = useState(true)
     const modelUrl = `${RESOURCE_URL}/models/Tower.glb`
     const modelContainerRef = useRef<any>(null)
-
-    // 异步加载分包中的ThreeModel组件
-    useEffect(() => {
-        // 使用动态导入加载ThreeModel组件
-        setIsModelReady(false);
-
-        try {
-            // 尝试动态导入组件
-            import('../../subPackages/3d-model/components/ThreeModel')
-                .then(module => {
-                    console.log('3D模型组件加载成功');
-                    setThreeModel(() => module.default);
-                    setIsModelReady(true);
-                })
-                .catch(err => {
-                    console.error('加载3D组件失败:', err);
-                    setIsModelReady(true); // 即使失败也设置为准备好，显示占位符
-                });
-        } catch (error) {
-            console.error('导入路径错误:', error);
-            setIsModelReady(true);
-        }
-    }, [])
 
     // 页面加载时检查登录状态
     useEffect(() => {
@@ -126,6 +104,12 @@ export default function Index() {
         Taro.navigateTo({ url: '/subPackages/wish/pages/wishTower/index' })
     }
 
+    // 3D模型加载处理
+    const handleModelLoad = () => {
+        console.log('3D模型加载完成');
+        setIsModelLoading(false);
+    }
+
     // Taro 特有的生命周期 Hooks
     useDidShow(() => {
         console.log('页面显示')
@@ -189,25 +173,19 @@ export default function Index() {
                 {/* 使用透明背景，放在图片前方 */}
 
                 <View className="model-container" ref={modelContainerRef}>
-                    {!isModelReady ? (
+                    {isModelLoading && (
                         <View className="model-loading">
                             <View className="model-loading-spinner"></View>
                             <View className="model-loading-text">3D模型加载中...</View>
                         </View>
-                    ) : ThreeModel ? (
-                        <>
-                            {React.createElement(ThreeModel, {
-                                modelUrl,
-                                fullscreen: true,
-                                backgroundColor: "transparent",
-                                autoRotate: true
-                            })}
-                        </>
-                    ) : (
-                        <View className="model-placeholder" onClick={handleViewModel}>
-                            <View className="model-placeholder-text">点击查看3D模型</View>
-                        </View>
                     )}
+                    <ThreeModel
+                        modelUrl={modelUrl}
+                        fullscreen={true}
+                        backgroundColor="transparent"
+                        autoRotate={true}
+                        onLoad={handleModelLoad}
+                    />
                 </View>
 
                 {/* 直接使用样式中的塔图片作为背景 */}
@@ -255,54 +233,12 @@ export default function Index() {
                     <Text className='tower-menu-text'>文化知识</Text>
                 </View>
             </View>
-            {/* 功能按钮区域 - 按照效果图排列 */}
-            {/* <View className='function-container'>
-                <View className='function-row'>
-                    <View className='function-button' onClick={handleWish}>
-                        <Image
-                            className='function-image'
-                            src='/static/images/wish-icon.png'
-                            mode='aspectFit'
-                        />
-                        <Text className='function-text'>向塔许愿</Text>
-                    </View>
-
-                    <View className='function-button' onClick={handleDecorate}>
-                        <Image
-                            className='function-image'
-                            src='/static/images/decorate-icon.png'
-                            mode='aspectFit'
-                        />
-                        <Text className='function-text'>装饰宝塔</Text>
-                    </View>
-                </View>
-
-                <View className='function-row'>
-                    <View className='function-button' onClick={handleLight}>
-                        <Image
-                            className='function-image'
-                            src='/static/images/light-icon.png'
-                            mode='aspectFit'
-                        />
-                        <Text className='function-text'>点亮宝塔</Text>
-                    </View>
-
-                    <View className='function-button' onClick={handleCulture}>
-                        <Image
-                            className='function-image'
-                            src='/static/images/culture-icon.png'
-                            mode='aspectFit'
-                        />
-                        <Text className='function-text'>文化知识</Text>
-                    </View>
-                </View>
-            </View> */}
 
             {/* 登录按钮 - 未登录时显示 */}
             {/* 已移除登录按钮，直接在页面加载时提示登录 */}
 
             {/* 底部导航 */}
-            <NavBtns showBack={false} showHome={false} />
+            {/* <NavBtns showBack={false} showHome={false} /> */}
         </View>
     )
 }

@@ -44,7 +44,7 @@ export default {
             independent: false // 非独立分包
         }
     ],
-    // 预加载分包
+    // 预加载所有分包
     preloadRule: {
         'pages/index/index': {
             network: 'all',
