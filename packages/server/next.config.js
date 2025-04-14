@@ -23,6 +23,14 @@ const nextConfig = {
             },
         ];
     },
+    async rewrites() {
+        return [
+            {
+                source: '/api/resources/:path*',
+                destination: '/api/resources/:path*',
+            },
+        ];
+    },
 }
 
 module.exports = nextConfig 

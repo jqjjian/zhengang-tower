@@ -1,0 +1,47 @@
+.nav-btns {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 63px;
+    bottom: 88px;
+    z-index: 100;
+    gap: 22px;
+    .nav-title {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .nav-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #555;
+        font-size: 22px;
+        transition: all 0.2s ease;
+        color: #c29a62;
+        &:before {
+            content: '';
+            display: block;
+            width: 72px;
+            height: 72px;
+        }
+        &:active {
+            background-color: #e0e0e0;
+        }
+        &.back-btn {
+            &:before {
+                background-image: url('~@/static/images/back.webp');
+                background-size: 100% 100%;
+            }
+        }
+        &.home-btn {
+            &:before {
+                background-image: url('~@/static/images/home.webp');
+                background-size: 100% 100%;
+            }
+        }
+    }
+}

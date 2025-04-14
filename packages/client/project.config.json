@@ -16,10 +16,27 @@
         "coverView": true,
         "showShadowRootInWxmlPanel": false,
         "scopeDataCheck": false,
-        "useCompilerModule": false
+        "useCompilerModule": false,
+        "babelSetting": {
+            "ignore": [],
+            "disablePlugins": [],
+            "outputPath": ""
+        },
+        "useApiHook": true,
+        "useApiHostProcess": true,
+        "packNpmManually": true,
+        "packNpmRelationList": [
+            {
+                "packageJsonPath": "./package.json",
+                "miniprogramNpmDistDir": "./dist/"
+            }
+        ],
+        "enableEngineNative": false,
+        "userConfirmedUseCompilerModuleSwitch": false
     },
     "compileType": "miniprogram",
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
-    "condition": {}
+    "condition": {},
+    "libVersion": "2.20.1"
 }

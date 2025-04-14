@@ -54,6 +54,6 @@ export default defineConfig<'vite'>(async () => {
             */
         }
     }
-    
+
     return config
 })

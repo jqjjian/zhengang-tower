@@ -1,4 +1,7 @@
-export default {
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+
+export default defineConfig({
     plugins: [
         // 打印编译文件路径
         {
@@ -8,8 +11,13 @@ export default {
                 return code
             }
         }
-    ]
+    ],
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, './src')
+        }
+    }
     // optimizeDeps: {
     //     include: ['@nutui/icons-react-taro']
     // }
-}
+})

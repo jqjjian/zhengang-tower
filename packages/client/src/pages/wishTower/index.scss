@@ -1,0 +1,783 @@
+// 首先定义关键帧动画
+@keyframes flipAppear {
+    0% {
+        transform: translateX(-50%) scale(0.2) rotateY(90deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-50%) scale(0.7) rotateY(45deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateX(-50%) scale(1) rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0% {
+        filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+    }
+    100% {
+        filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.6));
+    }
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.6) translateY(20px);
+    }
+    70% {
+        transform: scale(1.05) translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 添加结果牌摇晃的动效
+@keyframes gentleShake {
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(1deg) scale(1);
+    }
+    75% {
+        transform: rotate(-1deg) scale(1);
+    }
+}
+
+// 修改纸牌浮动动效为更自然的整体晃动
+@keyframes naturalFloat {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(0, -3px) rotate(0.4deg);
+    }
+    50% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    75% {
+        transform: translate(0, 3px) rotate(-0.4deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+// 新增一个简单的抖动动画
+@keyframes quickShake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    10% {
+        transform: translateX(-5px);
+    }
+    20% {
+        transform: translateX(5px);
+    }
+    30% {
+        transform: translateX(-3px);
+    }
+    40% {
+        transform: translateX(2px);
+    }
+    50% {
+        transform: translateX(0);
+    }
+}
+
+/* 添加缺失的fadeIn动画定义 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 重新定义抖动动画，确保不影响可见性 */
+@keyframes shakeEffect {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    10% {
+        transform: translate(-8px, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    20% {
+        transform: translate(7px, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    30% {
+        transform: translate(-5px, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    40% {
+        transform: translate(4px, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    50% {
+        transform: translate(-2px, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    60% {
+        transform: translate(1px, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    70% {
+        transform: translate(0, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    100% {
+        transform: translate(0, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* 持续漂浮动画，不影响可见性 */
+@keyframes naturalFloat {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    25% {
+        transform: translate(0, -3px);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    50% {
+        transform: translate(0, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    75% {
+        transform: translate(0, 3px);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    100% {
+        transform: translate(0, 0);
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* 入场动画，确保最终保持可见 */
+@keyframes simpleAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+        visibility: visible !important;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible !important;
+    }
+}
+
+.wish-tower-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.wish-title {
+    margin-top: 40px;
+    font-size: 36px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+/* 许愿表单样式 */
+.wish-form {
+    width: 90%;
+    margin-top: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.wish-types {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.wish-type-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px 10px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.wish-type-item.active {
+    background-color: rgba(255, 215, 0, 0.2);
+}
+
+.type-image {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 6px;
+}
+
+.wish-input-container {
+    margin: 20px 0;
+}
+
+.wish-input {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.submit-button {
+    background-color: #ff6b00;
+    color: white;
+    border-radius: 24px;
+    padding: 0 40px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.submit-button[disabled] {
+    background-color: #ccc;
+}
+
+/* 祝福结果样式 */
+.wish-result {
+    width: 90%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blessing-container {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.result-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.blessing-title {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.blessing-title Image {
+    width: 140px;
+    height: 40px;
+}
+
+.blessing-title Text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.blessing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.blessing-part {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.blessing-part Text {
+    font-size: 28px;
+    font-weight: bold;
+    color: #b51d1a;
+    margin: 0 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.action-button {
+    background-color: #ff6b00;
+    color: white;
+    border-radius: 24px;
+    padding: 0 20px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    width: 45%;
+    font-weight: bold;
+    border: none;
+}
+
+.wish-tower-bg {
+    background: url('~@/static/images/wish-tower-bg.webp') no-repeat center
+        center;
+    height: 100vh;
+    position: relative;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    .header {
+        background: url('~@/static/images/to_tower_wish.webp') no-repeat center;
+        background-size: 100% 100%;
+        width: 324px;
+        height: 78px;
+        position: fixed;
+        top: 93px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .wish-tower {
+        // width: 346px;
+        // background: url('~@/static/images/wish-tower.webp') no-repeat center;
+        // background-size: 100% 100%;
+        width: 100%;
+        padding: 214px 202px 0;
+        display: flex;
+        align-items: flex-start;
+        box-sizing: border-box;
+        // 缩短过渡时间，仅对部分属性应用过渡效果
+        transition: padding 0.3s ease;
+
+        &.active {
+            padding: 214px 237px 0;
+            // 移除可能导致消失的transform
+            // transform: scale(0.85);
+
+            .img-wrapper {
+                // 使用更温和的浮动效果
+                animation: float 3s ease-in-out infinite;
+
+                img {
+                    animation: glow 3s ease-in-out infinite;
+                }
+            }
+        }
+
+        .img-wrapper {
+            flex: 1;
+            // 确保图片包装器始终可见
+            z-index: 1;
+            position: relative;
+
+            image {
+                width: 100%;
+                height: 100%;
+                // 仅对部分属性应用过渡效果
+                transition: filter 0.5s ease-in-out;
+            }
+        }
+    }
+
+    .wish-tower-btn {
+        position: fixed;
+        bottom: 90px;
+        width: 187px;
+        left: calc(50% - 93.5px);
+        height: 55px;
+        font-size: 22px;
+        color: #fef5e8;
+        margin: 68px auto 0;
+        background: url('~@/static/images/xuyuan_bg.webp') no-repeat center;
+        background-size: 100% 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.5s ease-out forwards;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        &.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+
+            &:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    }
+    .select-wish {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 442px;
+        margin: 0 auto;
+        bottom: 195px;
+        left: calc(50% - 221px);
+        // transform: translateX(-50%);
+        position: fixed;
+        box-sizing: border-box;
+        animation: fadeInUp 0.5s ease-out forwards;
+        .select-wish-item {
+            width: 55px;
+            box-sizing: border-box;
+            height: 173px;
+            background: url('~@/static/images/select_wish.webp') no-repeat
+                center;
+            background-size: 100% 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            color: #fef5e8;
+            padding: 0 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: popIn 0.4s ease forwards;
+
+            &:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+            &:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+            &:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+            &:nth-child(4) {
+                animation-delay: 0.4s;
+            }
+            &:nth-child(5) {
+                animation-delay: 0.5s;
+            }
+
+            &.active {
+                background: url('~@/static/images/select_wish_active.webp')
+                    no-repeat center;
+                background-size: 100% 100%;
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            }
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+    .confirm-wish-btn {
+        position: fixed;
+        bottom: 88px;
+        left: calc(50% - 153.5px);
+        // transform: translateX(-50%);
+        position: absolute;
+        box-sizing: border-box;
+        width: 307px;
+        height: 55px;
+        background: url('~@/static/images/confirm_wish.webp') no-repeat center;
+        background-size: 100% 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px;
+        color: #fef5e8;
+    }
+
+    .wish-res-wrapper {
+        width: 424px;
+        height: 903px;
+        position: fixed;
+        top: 216px;
+        z-index: 1000;
+        left: calc(50% - 212px);
+        background: url('~@/static/images/wish_res_bg.webp') no-repeat center;
+        background-size: 100% 100%;
+
+        /* 始终保持可见 */
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+
+        /* 基础状态下应用漂浮动画 */
+        animation: simpleAppear 0.6s ease-out forwards,
+            naturalFloat 6s ease-in-out 2s infinite;
+        will-change: transform;
+        backface-visibility: visible;
+        transform-style: preserve-3d;
+
+        /* 抖动状态覆盖动画但保持完全可见性 */
+        &.shake {
+            animation: shakeEffect 0.6s ease-in-out forwards !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+
+        /* 内部元素保持不变 */
+        .wish-res-title {
+            width: 250px;
+            height: 60px;
+            margin: 198px auto 0;
+            margin-left: 65px;
+            box-sizing: border-box;
+            background: url('~@/static/images/wish_res_title_bg.webp') space
+                center center;
+            background-size: auto 100%;
+            font-size: 38px;
+            color: #fef5e8;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            opacity: 0;
+            animation: fadeIn 0.5s 0.2s ease forwards;
+
+            Text {
+                opacity: 0;
+                animation: fadeIn 0.4s ease forwards;
+
+                &:nth-child(1) {
+                    animation-delay: 0.3s;
+                }
+                &:nth-child(2) {
+                    animation-delay: 0.4s;
+                }
+                &:nth-child(3) {
+                    animation-delay: 0.5s;
+                }
+                &:nth-child(4) {
+                    animation-delay: 0.6s;
+                }
+            }
+        }
+
+        .wish-res-content {
+            width: 110px;
+            height: 200px;
+            margin: 95px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transform: translateX(-20px);
+
+            .wish-res-content-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 44px;
+                font-weight: bold;
+                color: #bf3f26;
+                opacity: 0;
+                animation: fadeIn 0.5s ease forwards;
+
+                &:nth-child(1) {
+                    animation-delay: 0.7s;
+                }
+                &:nth-child(2) {
+                    animation-delay: 0.9s;
+                }
+            }
+        }
+    }
+    // .wish-form {
+    //     background-color: white;
+    //     border-radius: 10px;
+    //     padding: 20px;
+    //     margin-bottom: 20px;
+    //     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    //     .form-item {
+    //         margin-bottom: 15px;
+
+    //         .label {
+    //             display: block;
+    //             font-size: 16px;
+    //             color: #333;
+    //             margin-bottom: 8px;
+    //         }
+
+    //         .input {
+    //             width: 100%;
+    //             border: 1px solid #ddd;
+    //             border-radius: 5px;
+    //             padding: 10px;
+    //             font-size: 14px;
+    //             background-color: #f9f9f9;
+    //             box-sizing: border-box;
+    //         }
+
+    //         .name-input {
+    //             height: 40px;
+    //         }
+    //     }
+
+    //     .submit-button {
+    //         width: 100%;
+    //         height: 44px;
+    //         background-color: #8b4513;
+    //         color: white;
+    //         border-radius: 22px;
+    //         font-size: 16px;
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: center;
+
+    //         .nut-icon {
+    //             margin-right: 5px;
+    //         }
+    //     }
+    // }
+
+    // .wish-list {
+    //     background-color: white;
+    //     border-radius: 10px;
+    //     padding: 20px;
+    //     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    //     .list-title {
+    //         font-size: 18px;
+    //         font-weight: bold;
+    //         color: #8b4513;
+    //         margin-bottom: 15px;
+    //         display: block;
+    //     }
+
+    //     .wish-item {
+    //         border-bottom: 1px solid #eee;
+    //         padding: 12px 0;
+
+    //         &:last-child {
+    //             border-bottom: none;
+    //         }
+
+    //         .wish-content {
+    //             font-size: 15px;
+    //             color: #333;
+    //             display: block;
+    //             margin-bottom: 5px;
+    //         }
+
+    //         .wish-author {
+    //             font-size: 13px;
+    //             color: #888;
+    //             display: block;
+    //             text-align: right;
+    //         }
+    //     }
+    // }
+}
+
+/* 简单的淡入动画 */
+@keyframes simpleAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -19,13 +19,13 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
     "typeRoots": [
       "node_modules/@types",
       "./types"
     ]
   },
-  "include": ["./src", "./types", "config/**/*"],
+  "include": ["./src", "./types", "config/**/*", "src/**/*.png", "src/**/*.webp", "src/**/*.jpg", "src/**/*.jpeg", "src/**/*.svg", "src/**/*.gif"],
   "compileOnSave": true
 }

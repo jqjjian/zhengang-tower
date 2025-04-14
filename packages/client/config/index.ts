@@ -8,17 +8,7 @@ export default defineConfig(async (merge) => {
     const baseConfig: UserConfigExport = {
         projectName: 'zhengang-tower',
         date: '2025-4-6',
-        designWidth(input: any) {
-            // 配置 NutUI 375 尺寸
-            if (
-                typeof input === 'object' &&
-                input?.file?.replace(/\\+/g, '/').indexOf('@nutui') > -1
-            ) {
-                return 375
-            }
-            // 全局使用 Taro 默认的 750 尺寸
-            return 750
-        },
+        designWidth: 750, // 固定设计稿宽度为750
         deviceRatio: {
             640: 2.34 / 2,
             750: 1,
@@ -49,7 +39,8 @@ export default defineConfig(async (merge) => {
             '@/components': path.resolve(__dirname, '..', 'src/components'),
             '@/utils': path.resolve(__dirname, '..', 'src/utils'),
             '@/assets': path.resolve(__dirname, '..', 'src/assets'),
-            '@/pages': path.resolve(__dirname, '..', 'src/pages')
+            '@/pages': path.resolve(__dirname, '..', 'src/pages'),
+            '@': path.resolve(__dirname, '..', 'src')
         },
         // vite: {
         //     // css: {
@@ -73,6 +64,10 @@ export default defineConfig(async (merge) => {
             webpackChain(chain) {
                 chain.resolve.alias.set('react', 'react')
                 chain.resolve.alias.set('react-dom', 'react-dom')
+                chain.resolve.alias.set(
+                    '@',
+                    path.resolve(__dirname, '..', 'src')
+                )
                 // chain.resolve.alias.set(
                 //     '@nutui/icons-react-taro',
                 //     path.resolve(
@@ -91,49 +86,54 @@ export default defineConfig(async (merge) => {
                 // 解决taro-ui加载问题
                 chain.merge({
                     module: {
-                        rule: {
-                            // taroUi: {
-                            //     test: /taro-ui\/dist\/style/,
-                            //     use: [
-                            //         {
-                            //             loader: 'style-loader'
-                            //         },
-                            //         {
-                            //             loader: 'css-loader'
-                            //         },
-                            //         {
-                            //             loader: 'sass-loader',
-                            //             options: {
-                            //                 implementation: require('sass')
-                            //             }
-                            //         }
-                            //     ]
-                            // }
-                            // 处理duxui的less文件
-                            // duxuiStyle: {
-                            //     test: /\.less$/,
-                            //     use: [
-                            //         {
-                            //             loader: 'style-loader'
-                            //         },
-                            //         {
-                            //             loader: 'css-loader'
-                            //         },
-                            //         {
-                            //             loader: 'less-loader',
-                            //             options: {
-                            //                 lessOptions: {
-                            //                     modifyVars: {
-                            //                         'primary-color': '#1DA57A',
-                            //                         'border-radius-base': '4px'
-                            //                     },
-                            //                     javascriptEnabled: true
-                            //                 }
-                            //             }
-                            //         }
-                            //     ]
-                            // }
-                        }
+                        rule: [
+                            {
+                                test: /\\.(png|jpe?g|gif|webp|svg)$/,
+                                type: 'asset/inline' // 全量转为 Base64
+                            }
+                        ]
+
+                        // taroUi: {
+                        //     test: /taro-ui\/dist\/style/,
+                        //     use: [
+                        //         {
+                        //             loader: 'style-loader'
+                        //         },
+                        //         {
+                        //             loader: 'css-loader'
+                        //         },
+                        //         {
+                        //             loader: 'sass-loader',
+                        //             options: {
+                        //                 implementation: require('sass')
+                        //             }
+                        //         }
+                        //     ]
+                        // }
+                        // 处理duxui的less文件
+                        // duxuiStyle: {
+                        //     test: /\.less$/,
+                        //     use: [
+                        //         {
+                        //             loader: 'style-loader'
+                        //         },
+                        //         {
+                        //             loader: 'css-loader'
+                        //         },
+                        //         {
+                        //             loader: 'less-loader',
+                        //             options: {
+                        //                 lessOptions: {
+                        //                     modifyVars: {
+                        //                         'primary-color': '#1DA57A',
+                        //                         'border-radius-base': '4px'
+                        //                     },
+                        //                     javascriptEnabled: true
+                        //                 }
+                        //             }
+                        //         }
+                        //     ]
+                        // }
                     }
                 })
             },
@@ -144,7 +144,15 @@ export default defineConfig(async (merge) => {
             postcss: {
                 pxtransform: {
                     enable: true,
-                    config: { selectorBlackList: ['nut-'] }
+                    config: {
+                        selectorBlackList: ['nut-']
+                    }
+                },
+                url: {
+                    enable: true,
+                    config: {
+                        // 去掉limit选项，使用默认配置
+                    }
                 },
                 cssModules: {
                     enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
@@ -153,6 +161,11 @@ export default defineConfig(async (merge) => {
                         generateScopedName: '[name]__[local]___[hash:base64:5]'
                     }
                 }
+            },
+            optimizeMainPackage: {
+                enable: true // 开启主包优化
+                // exclude: ['moduleA'], // （可选）排除不需要优化的模块
+                // include: ['moduleB'] // （可选）强制指定需要优化的模块
             }
         },
         h5: {
@@ -168,6 +181,12 @@ export default defineConfig(async (merge) => {
                 autoprefixer: {
                     enable: true,
                     config: {}
+                },
+                url: {
+                    enable: true,
+                    config: {
+                        // 去掉limit选项，使用默认配置
+                    }
                 },
                 cssModules: {
                     enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true

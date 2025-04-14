@@ -1,0 +1,51 @@
+// This is your Prisma schema file
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+// 用户模型
+model User {
+    id        String   @id @default(uuid())
+    openId    String   @unique // 微信小程序用户的唯一标识
+    nickName  String?
+    avatar    String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    wishes    Wish[]
+}
+
+// 愿望模型
+model Wish {
+    id        String   @id @default(uuid())
+    type      String // 愿望类型
+    content   String? // 用户的愿望内容
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+}
+
+// 祝福语模型
+model Blessing {
+    id        String   @id @default(uuid())
+    type      String // 对应愿望类型
+    content   String // 祝福语内容（8个字，每4个字一组）
+    createdAt DateTime @default(now())
+}
+
+// 3D模型资源
+model Model3D {
+    id          String   @id @default(uuid())
+    name        String // 模型名称
+    description String? // 模型描述
+    scene       String // 对应场景标识
+    fileUrl     String // 模型文件URL
+    thumbnail   String? // 缩略图
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}

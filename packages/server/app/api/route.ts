@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   return Response.json({
-    name: '振钢大厦 API 服务',
+    name: '镇岗塔 API 服务',
     version: '1.0.0',
     status: 'running'
   });

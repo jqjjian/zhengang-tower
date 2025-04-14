@@ -10,5 +10,8 @@
   "engines": {
     "node": ">=14",
     "pnpm": ">=7"
+  },
+  "dependencies": {
+    "@tarojs/plugin-platform-weapp": "4.0.9"
   }
 }
