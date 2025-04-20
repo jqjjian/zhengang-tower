@@ -13,6 +13,7 @@
     top: 0;
     bottom: 0;
     box-sizing: border-box;
+
     .tower-menus {
         z-index: 1000;
         position: fixed;
@@ -50,6 +51,22 @@
         image {
             width: 142px;
             height: 280px;
+        }
+    }
+    &.light {
+        background: url('~@/static/images/light.webp') no-repeat center center;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        .tower-menus {
+            text {
+                color: #c29a62;
+            }
+        }
+        .tower-title {
+            background: url('~@/static/images/title-light.webp');
+            background-size: cover;
+            background-position: center;
         }
     }
     .header {

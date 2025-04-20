@@ -1,0 +1,25 @@
+---
+description: 镇岗塔项目代码规范
+globs: ["packages/client/src/**/*.{ts,tsx,js,jsx}", "packages/server/app/**/*.{ts,tsx,js,jsx}"]
+alwaysApply: false
+---
+
+# 镇岗塔项目代码规范
+
+本文档定义了镇岗塔项目的具体代码规范，为开发团队提供统一的代码风格指导。
+
+## JavaScript/TypeScript规范
+
+### 命名规范
+- **变量命名**: 使用camelCase
+- **常量命名**: 使用全大写SNAKE_CASE
+- **类/接口命名**: 使用PascalCase
+- **文件命名**: 使用kebab-case.ts或组件使用PascalCase.tsx
+- **组件命名**: 使用PascalCase，与文件名一致
+
+### 函数规范
+- 函数应遵循单一职责原则
+- 函数长度控制在100行以内，超过则考虑拆分
+- 参数数量控制在5个以内，超过则考虑使用对象参数
+- 使用函数声明而非函数表达式定义普通函数
+- React组件优先使用函数组件和Hooks

@@ -1,97 +1,498 @@
 .cultural-knowledge {
-    padding: 20px;
-    background-color: #f9f5e9;
-    min-height: 100vh;
-
+    padding: 20px 0 0;
+    background: url('~@/static/images/background.webp') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: auto;
     .header {
-        margin-bottom: 20px;
+        background: url('~@/subPackages/culture/static/images/header_bg.png')
+            no-repeat center center;
+        background-size: 100% 100%;
+        margin: 84px auto 0;
+        width: 391px;
+        height: 81px;
+        display: flex;
+        font-size: 42px;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #8b4513;
-        }
-    }
-
-    .knowledge-intro {
-        background-color: white;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-        .intro-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #8b4513;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .intro-content {
-            font-size: 15px;
-            color: #333;
-            line-height: 1.6;
-        }
+        color: #eedfc7;
     }
 
     .knowledge-list {
-        margin-bottom: 20px;
-
+        padding: 80px 75px 210px;
         .knowledge-item {
-            background-color: white;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: #804f21;
+            font-weight: normal;
+            font-size: 30px;
+            line-height: 36px;
 
-            .item-image {
-                width: 100%;
-                height: 150px;
+            p {
+                text-indent: 2em;
+                line-height: 40px;
+                margin-bottom: 40px;
             }
-
-            .item-content {
-                padding: 15px;
-
-                .item-title {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #8b4513;
-                    margin-bottom: 8px;
-                    display: block;
+            .tower-image {
+                width: 219px;
+                // height: 594px;
+                margin: 0 auto;
+                &.tower-2 {
+                    margin-top: 24px;
+                    width: 271px;
+                    height: 708px;
+                    margin-bottom: 56px;
                 }
-
-                .item-intro {
-                    font-size: 14px;
-                    color: #666;
-                    line-height: 1.5;
-                    margin-bottom: 12px;
-                    display: block;
+                &.tower-2-1 {
+                    width: 585px;
+                    height: 331px;
+                    margin: 0 auto 40px;
                 }
-
-                .read-more {
-                    text-align: right;
-
-                    .read-more-text {
-                        color: #8b4513;
-                        font-size: 14px;
-                        display: inline-block;
-                        padding: 5px 0;
-                        border-bottom: 1px solid currentColor;
-                    }
+                image {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .tower2-info {
+                margin: 0 auto;
+                width: 440px;
+                color: #804f21;
+                font-weight: normal;
+                font-size: 30px;
+                line-height: 36px;
+                text-align: center;
+                padding-bottom: 40px;
+                & > p {
+                    line-height: 50px;
+                    margin-bottom: 0px;
+                    font-weight: 500;
                 }
             }
         }
     }
 
     .footnote {
-        text-align: center;
-        padding: 15px 0;
+        background: #f5f0e5;
+        padding: 0 50px 38px;
+        box-sizing: border-box;
+        width: 100vw;
+        height: 210px;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        .footnote-text {
+        .menu-item {
+            width: 66px;
+            position: relative;
+            color: #c29a62;
+            text-align: center;
+            padding-top: 76px;
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 24px;
+            &::before {
+                content: '';
+                width: 56px;
+                height: 56px;
+                display: block;
+                position: absolute;
+                bottom: 58px;
+                left: 5px;
+                font-size: 22px;
+            }
+            &.active {
+                color: #804f21;
+                &::before {
+                    width: 66px;
+                    height: 66px;
+                    left: 0;
+                }
+            }
+            &:nth-child(1) {
+                &::before {
+                    background: url('~@/subPackages/culture/static/images/cuanshuo.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                &.active::before {
+                    background: url('~@/subPackages/culture/static/images/cuanshuo_active.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+            }
+            &:nth-child(2) {
+                &::before {
+                    background: url('~@/subPackages/culture/static/images/gouzhao.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                &.active::before {
+                    background: url('~@/subPackages/culture/static/images/gouzhao_active.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+            }
+            &:nth-child(3) {
+                &::before {
+                    background: url('~@/subPackages/culture/static/images/xiusan.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                &.active::before {
+                    background: url('~@/subPackages/culture/static/images/xiusan_active.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+            }
+            &:nth-child(4) {
+                &::before {
+                    background: url('~@/subPackages/culture/static/images/gujin.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                &.active::before {
+                    background: url('~@/subPackages/culture/static/images/gujin_active.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+            }
+            &:nth-child(5) {
+                &::before {
+                    background: url('~@/subPackages/culture/static/images/huanxin.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                &.active::before {
+                    background: url('~@/subPackages/culture/static/images/huanxin_active.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+            }
+            &:nth-child(6) {
+                &::before {
+                    background: url('~@/subPackages/culture/static/images/huanxin.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+                &.active::before {
+                    background: url('~@/subPackages/culture/static/images/huanxin.png')
+                        no-repeat center center;
+                    background-size: 100% 100%;
+                }
+            }
+        }
+    }
+}
+.tower-chuanshuo {
+    padding-bottom: 40px;
+    .tower-image {
+        height: 594px;
+    }
+}
+.timeline-container {
+    // background-color: #f7f3e3;
+    // border-radius: 12px;
+    // padding: 20px;
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    .timeline-header {
+        margin-bottom: 30px;
+
+        // p {
+        //     margin: 10px 0;
+        //     font-size: 14px;
+        //     color: #5a4a2d;
+        //     line-height: 1.5;
+        // }
+    }
+
+    .timeline {
+        position: relative;
+        padding-top: 10px;
+        padding-left: 30px;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            // background: #b58d49;
+            border-left: 2px dashed #c29a62;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+
+            &:last-child {
+                margin-bottom: 20px;
+            }
+
+            .timeline-point {
+                position: absolute;
+                left: -33px;
+                top: 6px;
+                width: 33px;
+                height: 33px;
+                border-radius: 50%;
+                background-color: #b58d49;
+                border: 2px solid #f7f3e3;
+                z-index: 2;
+            }
+
+            .timeline-content {
+                padding-top: 7px;
+                padding-bottom: 10px;
+                padding-left: 30px;
+
+                .timeline-year {
+                    font-size: 38px;
+                    font-weight: bold;
+                    color: #804f21;
+                    margin-bottom: 8px;
+                }
+
+                .timeline-desc {
+                    font-size: 30px;
+                    color: #804f21;
+                    line-height: 1.6;
+                }
+            }
+        }
+    }
+
+    .timeline-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 20px;
+            background-color: #b58d49;
+            color: #fff;
+            border-radius: 20px;
             font-size: 14px;
-            color: #999;
+            margin-bottom: 16px;
+
+            image {
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
+            }
+        }
+
+        .more-info {
+            font-size: 12px;
+            color: #8c6324;
+            text-align: center;
+            position: relative;
+
+            &:after {
+                content: '';
+                display: block;
+                width: 12px;
+                height: 12px;
+                margin: 4px auto 0;
+                border-left: 2px solid #8c6324;
+                border-bottom: 2px solid #8c6324;
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}
+.tower-gujin {
+    display: flex;
+    flex-direction: column;
+    gap: 112px;
+    padding-bottom: 112px;
+    .box {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 45px 40px 40px;
+        border-radius: 20px;
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #c1a375;
+            border-radius: 20px;
+            z-index: 10;
+        }
+    }
+    .box-1 {
+        min-height: 528px;
+        background: url('~@/subPackages/culture/static/images/tower4-bg-1.webp')
+            no-repeat center center;
+        background-size: cover;
+        border-top: 0;
+        border-bottom: 0;
+        .box-title {
+            font-size: 30px;
+            color: #eedfc7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 347px;
+            height: 54px;
+            background: url('~@/subPackages/culture/static/images/tower4-header-1.webp')
+                no-repeat center center;
+            background-size: cover;
+            margin-bottom: 54px;
+        }
+        & > p {
+            width: 407px;
+            line-height: 40px;
+        }
+    }
+    .box-2 {
+        min-height: 571px;
+        background: #f4f0e6;
+        position: relative;
+        &::after {
+            content: '';
+            width: 136px;
+            height: 214px;
+            position: absolute;
+            z-index: 1000;
+            right: -36px;
+            top: -80px;
+            background: url('~@/subPackages/culture/static/images/tower4-bell-1.webp')
+                no-repeat center center;
+            background-size: cover;
+        }
+        .box-title {
+            font-size: 30px;
+            color: #eedfc7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 260px;
+            height: 54px;
+            background: url('~@/subPackages/culture/static/images/tower4-header-2.webp')
+                no-repeat center center;
+            background-size: cover;
+            margin-bottom: 61px;
+        }
+        & > p {
+            line-height: 40px;
+        }
+    }
+    .box-3 {
+        min-height: 620px;
+        border-top: 0;
+        border-bottom: 0;
+        background: url('~@/subPackages/culture/static/images/tower4-bg-2.webp')
+            no-repeat center center;
+        background-size: cover;
+        display: flex;
+        justify-content: flex-end;
+        .box-title {
+            font-size: 30px;
+            color: #eedfc7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 347px;
+            height: 54px;
+            background: url('~@/subPackages/culture/static/images/tower4-header-3.webp')
+                no-repeat center center;
+            background-size: cover;
+            margin-bottom: 54px;
+        }
+        p {
+            width: 407px;
+            line-height: 40px;
+        }
+    }
+}
+.tower-huanxin {
+    .image-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 40px;
+        .tower-image {
+            height: auto;
+            flex: 1;
+        }
+    }
+}
+.tower-zhitian {
+    .title {
+        width: 431px;
+        height: 45px;
+        margin: 80px auto 57px;
+        background: url('~@/subPackages/culture/static/images/tower-5-title.webp')
+            no-repeat center center;
+        background-size: cover;
+    }
+    .box {
+        display: flex;
+        gap: 25px;
+        border: 1px solid #c1a476;
+        border-radius: 20px;
+        min-height: 368px;
+        box-sizing: border-box;
+        padding: 25px;
+        background: #f4f0e6;
+        margin-bottom: 48px;
+        .box-info {
+            display: flex;
+            flex-direction: column;
+            // width: 348px;
+            flex: 1;
+            .box-info-title {
+                text-align: center;
+                height: 54px;
+                font-size: 30px;
+                color: #eedfc7;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 236px;
+                background: url('~@/subPackages/culture/static/images/tower-5-header-bg.webp')
+                    no-repeat center center;
+                background-size: cover;
+                margin-bottom: 30px;
+                &.title-1 {
+                    width: 347px;
+                    height: 54px;
+                    background: url('~@/subPackages/culture/static/images/tower-5-header-bg1.webp')
+                        no-repeat center center;
+                    background-size: cover;
+                }
+                &.title-2 {
+                    width: 208px;
+                    height: 54px;
+                    background: url('~@/subPackages/culture/static/images/tower-5-header-bg2.webp')
+                        no-repeat center center;
+                    background-size: cover;
+                }
+            }
+            .box-info-desc {
+            }
+        }
+        .box-image {
+            width: 210px;
+            height: 315px;
         }
     }
 }

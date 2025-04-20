@@ -1,4 +1,4 @@
-import { View, Text, Textarea, Button, Input, Image } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import { useEffect, useState, useRef } from 'react'
 import { useDidShow, useDidHide, showToast } from '@tarojs/taro'
 // import { Service } from '@nutui/icons-react-taro'

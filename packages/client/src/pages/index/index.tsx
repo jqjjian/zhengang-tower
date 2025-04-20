@@ -10,7 +10,7 @@ import { Star, Location, Service } from '@nutui/icons-react-taro'
 import './index.scss'
 import { RESOURCE_URL } from '@/config'
 import { wxLogin, checkLogin } from '@/services/auth'
-import NavBtns from '@/components/NavBtns'
+// import NavBtns from '@/components/NavBtns'
 // 直接导入ThreeModel组件
 import ThreeModel from '../../subPackages/3d-model/components/ThreeModel'
 
@@ -26,6 +26,7 @@ export default function Index() {
     const [isModelLoading, setIsModelLoading] = useState(true)
     const modelUrl = `${RESOURCE_URL}/models/Tower.glb`
     const modelContainerRef = useRef<any>(null)
+    const [isLight, setIsLight] = useState(false)
 
     // 页面加载时检查登录状态
     useEffect(() => {
@@ -132,11 +133,12 @@ export default function Index() {
 
     const handleLight = () => {
         console.log('点亮宝塔')
+        setIsLight(!isLight)
         // 暂时未创建点亮宝塔分包
-        Taro.showToast({
-            title: '功能开发中',
-            icon: 'none'
-        })
+        // Taro.showToast({
+        //     title: '功能开发中',
+        //     icon: 'none'
+        // })
     }
 
     const handleCulture = () => {
@@ -153,7 +155,7 @@ export default function Index() {
     }
 
     return (
-        <View className='index'>
+        <View className={`index ${isLight ? 'light' : ''}`}>
             {/* <View className='header'>
                 <Text className='title'>镇岗塔</Text>
                 <Text className='subtitle'>宇台·云岗</Text>
@@ -203,7 +205,7 @@ export default function Index() {
                 <View className='tower-menu-item' onClick={goToWishTower}>
                     <Image
                         className='tower-menu-image'
-                        src={`${RESOURCE_URL}/images/wish-icon.webp`}
+                        src={`${RESOURCE_URL}${isLight ? '/images/wish-light-icon.webp' : '/images/wish-icon.png'}`}
                         mode='aspectFit'
                     />
                     <Text className='tower-menu-text'>向塔许愿</Text>
@@ -211,7 +213,7 @@ export default function Index() {
                 <View className='tower-menu-item' onClick={handleDecorate}>
                     <Image
                         className='tower-menu-image'
-                        src={`${RESOURCE_URL}/images/decorate-icon.webp`}
+                        src={`${RESOURCE_URL}${isLight ? '/images/decorate-light-icon.webp' : '/images/decorate-icon.webp'}`}
                         mode='aspectFit'
                     />
                     <Text className='tower-menu-text'>装饰宝塔</Text>
@@ -219,7 +221,7 @@ export default function Index() {
                 <View className='tower-menu-item' onClick={handleLight}>
                     <Image
                         className='tower-menu-image'
-                        src={`${RESOURCE_URL}/images/light-icon.webp`}
+                        src={`${RESOURCE_URL}${isLight ? '/images/light-light-icon.webp' : '/images/light-icon.webp'}`}
                         mode='aspectFit'
                     />
                     <Text className='tower-menu-text'>点亮宝塔</Text>
@@ -227,7 +229,7 @@ export default function Index() {
                 <View className='tower-menu-item' onClick={handleCulture}>
                     <Image
                         className='tower-menu-image'
-                        src={`${RESOURCE_URL}/images/culture-icon.webp`}
+                        src={`${RESOURCE_URL}${isLight ? '/images/culture-light-icon.webp' : '/images/culture-icon.webp'}`}
                         mode='aspectFit'
                     />
                     <Text className='tower-menu-text'>文化知识</Text>

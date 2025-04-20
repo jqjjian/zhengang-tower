@@ -1,0 +1,32 @@
+---
+description: 镇岗塔项目开发约定
+globs: 
+alwaysApply: false
+---
+
+# 镇岗塔项目开发约定
+
+本文档定义了镇岗塔项目的开发约定，包括分支管理、环境配置、部署流程等。
+
+## 环境配置
+
+### 开发环境
+- 统一使用Node.js v18.x LTS版本
+- 包管理器使用pnpm v8.x
+- 编辑器推荐使用VS Code，并安装推荐的扩展
+- 确保安装并配置ESLint和Prettier
+
+### 本地开发
+- 使用`pnpm dev`启动开发环境
+- 小程序开发使用`pnpm dev:client`命令
+- 服务端开发使用`pnpm dev:server`命令
+- 统一使用开发者工具的稳定版本
+
+## 分支管理
+
+### 分支命名
+- 主分支: `main`
+- 开发分支: `dev`
+- 功能分支: `feature/功能名称`
+- 修复分支: `fix/问题描述`
+- 发布分支: `release/x.y.z`

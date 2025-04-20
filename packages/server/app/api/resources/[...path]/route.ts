@@ -35,10 +35,12 @@ export async function GET(
     { params }: { params: { path: string[] } }
 ) {
     try {
-        console.log('路径参数:', params.path);
+        // 确保params.path是可用的
+        const pathArray = Array.isArray(params.path) ? params.path : [];
+        console.log('路径参数:', pathArray);
 
         // 从路径参数构建文件路径
-        const filePath = params.path.join('/');
+        const filePath = pathArray.join('/');
         console.log('文件路径:', filePath);
 
         if (!filePath) {
