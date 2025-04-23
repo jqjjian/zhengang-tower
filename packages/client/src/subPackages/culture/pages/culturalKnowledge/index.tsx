@@ -318,6 +318,7 @@ export default function CulturalKnowledge() {
                             </View>
                         </View>
                         <View className='box-image'>
+                            <Image src={`${RESOURCE_URL}/images/img1.webp`} />
                         </View>
                     </View>
                     <View className='box'>
@@ -335,6 +336,7 @@ export default function CulturalKnowledge() {
                             </View>
                         </View>
                         <View className='box-image'>
+                            <Image src={`${RESOURCE_URL}/images/img2.webp`} />
                         </View>
                     </View>
                     <View className='box'>
@@ -352,6 +354,7 @@ export default function CulturalKnowledge() {
                             </View>
                         </View>
                         <View className='box-image'>
+                            <Image src={`${RESOURCE_URL}/images/img3.webp`} />
                         </View>
                     </View>
                     <View className='box'>
@@ -369,6 +372,7 @@ export default function CulturalKnowledge() {
                             </View>
                         </View>
                         <View className='box-image'>
+                            <Image src={`${RESOURCE_URL}/images/img4.webp`} />
                         </View>
                     </View>
                     <View className='box'>
@@ -386,6 +390,7 @@ export default function CulturalKnowledge() {
                             </View>
                         </View>
                         <View className='box-image'>
+                            <Image src={`${RESOURCE_URL}/images/img5.webp`} />
                         </View>
                     </View>
                 </View>}

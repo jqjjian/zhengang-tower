@@ -176,12 +176,12 @@
             }
             &:nth-child(6) {
                 &::before {
-                    background: url('~@/subPackages/culture/static/images/huanxin.png')
+                    background: url('~@/subPackages/culture/static/images/zhitian.png')
                         no-repeat center center;
                     background-size: 100% 100%;
                 }
                 &.active::before {
-                    background: url('~@/subPackages/culture/static/images/huanxin.png')
+                    background: url('~@/subPackages/culture/static/images/zhitian_active.png')
                         no-repeat center center;
                     background-size: 100% 100%;
                 }
@@ -473,11 +473,11 @@
                 background-size: cover;
                 margin-bottom: 30px;
                 &.title-1 {
-                    width: 347px;
+                    width: 315px;
                     height: 54px;
                     background: url('~@/subPackages/culture/static/images/tower-5-header-bg1.webp')
                         no-repeat center center;
-                    background-size: cover;
+                    background-size: 100% 100%;
                 }
                 &.title-2 {
                     width: 208px;
@@ -493,6 +493,10 @@
         .box-image {
             width: 210px;
             height: 315px;
+            image {
+                width: 210px;
+                height: 315px;
+            }
         }
     }
 }
