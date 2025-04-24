@@ -42,13 +42,23 @@ export default {
                 'pages/decorateTower/index' // 装饰宝塔
             ],
             independent: false // 非独立分包
+        },
+        {
+            root: 'subPackages/towerDetail',
+            name: 'tower-detail-package',
+            pages: [
+                'top/index',
+                'middle/index',
+                'bottom/index'
+            ],
+            independent: false // 非独立分包
         }
     ],
     // 预加载所有分包
     preloadRule: {
         'pages/index/index': {
             network: 'all',
-            packages: ['subPackages/3d-model', 'subPackages/wish', 'subPackages/culture', 'subPackages/decoration']
+            packages: ['subPackages/3d-model', 'subPackages/wish', 'subPackages/culture', 'subPackages/decoration', 'subPackages/towerDetail']
         }
     },
     // 添加WebGL支持

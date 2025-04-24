@@ -45,6 +45,8 @@ interface ThreeModelProps {
     showAxesHelper?: boolean; // 是否显示坐标系辅助线
     fullscreen?: boolean; // 是否全屏显示
     onLoad?: () => void; // 模型加载完成回调
+    focusPart?: 'top' | 'middle' | 'bottom' | null; // 新增：需要聚焦的部位
+    lightingPreset?: 'default' | 'detail'; // 新增：光照预设
 }
 
 /**
@@ -61,7 +63,9 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
     enableControls = true,
     showAxesHelper = false,
     fullscreen = false,
-    onLoad
+    onLoad,
+    focusPart = null, // 默认不聚焦
+    lightingPreset = 'default' // 默认光照预设
 }) => {
     const [canvasId] = useState(`model-canvas-${Date.now()}`);
     const [isLoading, setIsLoading] = useState(true);
@@ -74,6 +78,9 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
     const modelRef = useRef<any>(null);
     const platformRef = useRef<any>(null);
     const controlsRef = useRef<any>(null);
+    const raycasterRef = useRef<any>(null);
+    const modelBoxRef = useRef<any>(null);
+    const hotspotsRef = useRef<THREE.Sprite[]>([]);
 
     // 获取窗口尺寸
     useEffect(() => {
@@ -108,6 +115,111 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
         }
     };
 
+    // 创建并添加热点 (作为场景的子对象)
+    const createHotspots = (scene, box) => {
+        return false
+        // 清理旧热点（如果存在）
+        hotspotsRef.current.forEach(hp => scene.remove(hp));
+        hotspotsRef.current = [];
+
+        // TODO: 替换为发光纹理
+        const hotspotMaterial = new THREE.SpriteMaterial({
+            color: 0xffffff, // 白色
+            // map: texture, // 加载的发光纹理
+            blending: THREE.AdditiveBlending, // 混合模式，模拟发光
+            transparent: true, // 开启透明
+            opacity: 0.85, // 设置透明度
+            depthTest: false, // 禁用深度测试，总是可见（可能需要调整）
+            sizeAttenuation: true // 大小随距离衰减，保持视觉大小相对稳定
+        });
+
+        const modelHeight = box.max.y - box.min.y;
+        const modelRadiusEstimate = (box.max.x - box.min.x) * 0.5; // 估算模型半径用于Z定位
+
+        const hotspotScale = modelHeight * 0.03;
+
+        // 定义热点位置（需要根据模型微调）
+        const positions = [
+            // 使用之前确定的低比例，基于世界坐标的 box.min.y
+            new THREE.Vector3(0, box.min.y + modelHeight * 0.70, modelRadiusEstimate * 0.9), // 上部 (Y 比例提高到 0.70)
+            new THREE.Vector3(0, box.min.y + modelHeight * 0.4, modelRadiusEstimate * 1.0), // 中部, 稍突出
+            new THREE.Vector3(0, box.min.y + modelHeight * 0.05, modelRadiusEstimate * 0.9)  // 下部 (非常靠近底部)
+        ];
+
+        positions.forEach((pos, index) => {
+            const hotspot = new THREE.Sprite(hotspotMaterial.clone());
+            console.log(`Hotspot ${index + 1} - Calculated Y: ${pos.y.toFixed(2)}, Target Pos:`, pos);
+            hotspot.position.copy(pos);
+            hotspot.scale.set(hotspotScale, hotspotScale, hotspotScale); // 设置大小
+            scene.add(hotspot);
+            hotspotsRef.current.push(hotspot);
+        });
+    };
+
+    // 处理点击事件
+    const handleTap = (e: any) => {
+        if (!modelRef.current || !cameraRef.current || !modelBoxRef.current) return;
+
+        try {
+            // 1. 获取点击坐标 (相对于Canvas)
+            const touch = e.touches[0];
+            const { clientX, clientY } = touch;
+
+            // 注意：这里需要获取Canvas的实际屏幕位置来计算相对坐标
+            // Taro.createSelectorQuery() 在事件处理函数中可能异步，需要更可靠的方式
+            // 暂时假设点击坐标是相对于Canvas左上角的，需要根据实际情况调整
+            // 更稳妥的方式是在组件加载时获取Canvas位置并存储
+
+            // 获取Canvas的尺寸
+            const canvasWidth = windowSize.width;
+            const canvasHeight = windowSize.height;
+
+            // 2. 转换为归一化设备坐标 (NDC)
+            const mouse = new THREE.Vector2();
+            // 注意：这里假设 canvas 左上角为 (0,0)。如果不是，需要减去 canvas 的 offsetLeft/offsetTop
+            mouse.x = (clientX / canvasWidth) * 2 - 1;
+            mouse.y = -(clientY / canvasHeight) * 2 + 1;
+
+            // 3. 初始化并设置 Raycaster
+            if (!raycasterRef.current) {
+                raycasterRef.current = new THREE.Raycaster();
+            }
+            raycasterRef.current.setFromCamera(mouse, cameraRef.current);
+
+            // 4. 检测交点
+            const intersects = raycasterRef.current.intersectObject(modelRef.current, true);
+
+            if (intersects.length > 0) {
+                const intersectionPoint = intersects[0].point;
+                console.log('Clicked Point:', intersectionPoint);
+
+                // 5. 判断区域 (基于Y坐标和包围盒)
+                const box = modelBoxRef.current;
+                const modelHeight = box.max.y - box.min.y;
+                const relativeY = intersectionPoint.y - box.min.y; // 相对于底部的Y坐标
+
+                let targetPage = '';
+                if (relativeY > modelHeight * 0.66) { // 上部 (顶部1/3)
+                    console.log('Clicked Top Section');
+                    targetPage = '/subPackages/towerDetail/top/index'; // 替换为实际页面路径
+                } else if (relativeY > modelHeight * 0.33) { // 中部 (中间1/3)
+                    console.log('Clicked Middle Section');
+                    targetPage = '/subPackages/towerDetail/middle/index'; // 替换为实际页面路径
+                } else { // 下部 (底部1/3)
+                    console.log('Clicked Bottom Section');
+                    targetPage = '/subPackages/towerDetail/bottom/index'; // 替换为实际页面路径
+                }
+
+                // 6. 页面跳转
+                if (targetPage) {
+                    Taro.navigateTo({ url: targetPage });
+                }
+            }
+        } catch (error) {
+            console.error('处理点击事件失败:', error);
+        }
+    };
+
     // 清理动画循环和资源
     useEffect(() => {
         return () => {
@@ -127,12 +239,29 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     console.error('清理场景资源失败:', e);
                 }
             }
-            // 清理平台资源
-            if (platformRef.current) {
+            // 清理平台资源 - !!! 不应该在这里调用全局 dispose !!!
+            // if (platformRef.current) {
+            //     try {
+            //         // PLATFORM.dispose(); // 全局 dispose 会影响其他实例
+            //     } catch (e) {
+            //         console.error('清理平台资源失败:', e);
+            //     }
+            // }
+            // 新增：清理 OrbitControls
+            if (controlsRef.current) {
                 try {
-                    PLATFORM.dispose();
+                    // @ts-ignore 忽略可能的类型错误
+                    controlsRef.current.dispose();
                 } catch (e) {
-                    console.error('清理平台资源失败:', e);
+                    console.error('清理OrbitControls失败:', e);
+                }
+            }
+            // 清理渲染器
+            if (rendererRef.current) {
+                try {
+                    rendererRef.current.dispose();
+                } catch (e) {
+                    console.error('清理渲染器失败:', e);
                 }
             }
         };
@@ -232,7 +361,7 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                 // 启用色调映射，使场景整体更暗且带黄色调
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 0.65; // 保持适当曝光度
+                renderer.toneMappingExposure = 1.1; // 再次调整曝光度 (原为 1.0)
                 // 禁用阴影
                 renderer.shadowMap.enabled = false;
                 rendererRef.current = renderer;
@@ -256,8 +385,17 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                 const camera = new THREE.PerspectiveCamera(
                     60, windowSize.width / windowSize.height, 0.1, 1000
                 );
-                camera.position.z = 10; // 进一步增加初始距离
+                // camera.position.z = 10; // 初始距离将在模型加载后根据大小调整
                 cameraRef.current = camera;
+
+                // 移除所有之前的相机附加光源
+                // 清理旧的相机光源，以防万一
+                const oldLight = camera.getObjectByName('directFrontCameraLight');
+                if (oldLight) camera.remove(oldLight);
+
+                // 移除之前可能添加的相机方向光（以防万一）
+                const oldSunLight = camera.getObjectByName('cameraSunLight');
+                if (oldSunLight) camera.remove(oldSunLight);
 
                 // 添加控制器
                 if (enableControls) {
@@ -271,26 +409,70 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                     controlsRef.current = controls;
                 }
 
-                // 添加灯光 - 不产生阴影
-                const ambientLight = new THREE.AmbientLight(0xfff0c0, 0.65); // 改为暖黄色环境光
-                scene.add(ambientLight);
+                // 添加灯光 - 根据预设选择
+                if (lightingPreset === 'detail') {
+                    // --- 细节视图光照 --- (环境光 + 相机方向光)
+                    // 根据 focusPart 动态调整强度
+                    let ambientLightIntensity = 0.8; // 默认环境光强度
+                    let cameraLightIntensity = 1.0; // 默认相机方向光强度
 
-                // 添加直射光，模拟太阳光
-                const directionalLight = new THREE.DirectionalLight(0xffdc8a, 0.45); // 改为金黄色直射光
-                directionalLight.position.set(1, 1, 1);
-                directionalLight.castShadow = false;
-                scene.add(directionalLight);
+                    // 如果是顶部或中部细节，额外增加亮度
+                    if (focusPart === 'top' || focusPart === 'middle') {
+                        ambientLightIntensity = 1.5; // <<< 大幅增加顶部/中部视图的环境光强度
+                        cameraLightIntensity = 1.5; // <<< 顶部/中部视图时也保持较高相机光强度
+                        console.log(`Applying extra brightness for ${focusPart} detail view.`);
+                    }
 
-                // 添加第二个方向光，照亮模型背面
-                const directionalLight2 = new THREE.DirectionalLight(0xffe082, 0.3); // 改为浅黄色光
-                directionalLight2.position.set(-1, 0.5, -1);
-                directionalLight2.castShadow = false;
-                scene.add(directionalLight2);
+                    // 应用最终的光照强度
+                    const ambientLightDetail = new THREE.AmbientLight(0xffffff, ambientLightIntensity);
+                    scene.add(ambientLightDetail);
 
-                // 添加顶部点光源，增强整体亮度
-                const topLight = new THREE.PointLight(0xffeec0, 0.25); // 改为淡黄色点光源
-                topLight.position.set(0, 5, 0);
-                scene.add(topLight);
+                    const cameraLightDetail = new THREE.DirectionalLight(0xffffff, cameraLightIntensity);
+                    cameraLightDetail.position.set(1, 1, -2); // 相对于相机的位置 (来自右前上方一点)
+                    cameraLightDetail.name = 'cameraSunLight'; // 方便查找移除
+                    camera.add(cameraLightDetail); // 添加到相机
+
+                    console.log('Using DETAIL lighting preset.');
+
+                } else {
+                    // --- 默认视图光照 (首页) --- (六向 + 环境光)
+                    const ambientLightDefault = new THREE.AmbientLight(0xfff8e1, 0.35); // 基础环境光，暖色调
+                    scene.add(ambientLightDefault);
+
+                    const lightIntensityDefault = 0.45; // 每个方向光的强度
+
+                    // 上方光
+                    const lightTop = new THREE.DirectionalLight(0xffffff, lightIntensityDefault);
+                    lightTop.position.set(0, 10, 0);
+                    scene.add(lightTop);
+
+                    // 下方光
+                    const lightBottom = new THREE.DirectionalLight(0xffffff, lightIntensityDefault * 0.5);
+                    lightBottom.position.set(0, -10, 0);
+                    scene.add(lightBottom);
+
+                    // 前方光 (Z+)
+                    const lightFront = new THREE.DirectionalLight(0xffffff, lightIntensityDefault);
+                    lightFront.position.set(0, 0, 10);
+                    scene.add(lightFront);
+
+                    // 后方光 (Z-)
+                    const lightBack = new THREE.DirectionalLight(0xffffff, lightIntensityDefault);
+                    lightBack.position.set(0, 0, -10);
+                    scene.add(lightBack);
+
+                    // 左方光 (X-)
+                    const lightLeft = new THREE.DirectionalLight(0xffffff, lightIntensityDefault);
+                    lightLeft.position.set(-10, 0, 0);
+                    scene.add(lightLeft);
+
+                    // 右方光 (X+)
+                    const lightRight = new THREE.DirectionalLight(0xffffff, lightIntensityDefault);
+                    lightRight.position.set(10, 0, 0);
+                    scene.add(lightRight);
+
+                    console.log('Using DEFAULT lighting preset.');
+                }
 
                 // 添加坐标系辅助线
                 if (showAxesHelper) {
@@ -380,30 +562,22 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                                         // 处理材质，优化光照响应
                                         if (child.material) {
                                             // 确保材质双面可见
-                                            child.material.side = THREE.DoubleSide;
+                                            if (child.material.side !== undefined) {
+                                                child.material.side = THREE.DoubleSide;
+                                            }
 
                                             // 如果是MeshStandardMaterial，调整其属性
-                                            if (child.material.type === 'MeshStandardMaterial') {
-                                                child.material.roughness = Math.min(child.material.roughness, 0.85);
-                                                child.material.metalness = Math.max(child.material.metalness, 0.1);
+                                            if (child.material.isMeshStandardMaterial) {
+                                                child.material.roughness = Math.min(child.material.roughness ?? 1.0, 0.85);
+                                                child.material.metalness = Math.max(child.material.metalness ?? 0.0, 0.1);
                                                 child.material.envMapIntensity = 0.75;
                                             }
 
-                                            // 为所有材质增加少量的环境色
-                                            if (child.material.color) {
-                                                const baseColor = child.material.color.clone();
-
-                                                // 向材质颜色添加黄色调
-                                                child.material.color.r = Math.min(1, baseColor.r * 1.05);
-                                                child.material.color.g = Math.min(1, baseColor.g * 1.03);
-                                                child.material.color.b = Math.max(0, baseColor.b * 0.95);
-
-                                                // 添加黄色调的自发光
-                                                child.material.emissive = new THREE.Color(
-                                                    0.05,
-                                                    0.03,
-                                                    0.01
-                                                );
+                                            // 检查 color 属性是否存在且可用
+                                            if (child.material.color && typeof child.material.color.set === 'function') {
+                                                // 这里可以保留之前调整颜色的代码，或者留空
+                                                // const baseColor = child.material.color.clone();
+                                                // ... 颜色调整代码 ...
                                             }
 
                                             child.material.needsUpdate = true;
@@ -419,14 +593,71 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                                 const size = box.getSize(new THREE.Vector3());
                                 const center = box.getCenter(new THREE.Vector3());
 
+                                // 应用居中位移
                                 model.position.x = -center.x;
                                 model.position.y = -center.y;
                                 model.position.z = -center.z;
 
-                                // 根据模型大小调整相机位置
+                                // 更新世界矩阵并获取最终的世界包围盒
+                                model.updateMatrixWorld(true);
+                                const finalBox = new THREE.Box3().setFromObject(model);
+                                modelBoxRef.current = finalBox; // 存储最终的包围盒信息
+
+                                // 计算模型的最大维度，用于后续距离计算
                                 const maxDim = Math.max(size.x, size.y, size.z);
-                                // 进一步增大系数，使模型显示更小
-                                camera.position.z = maxDim * 3.2 || 8;
+
+                                // 根据 focusPart 调整相机焦点和位置
+                                if (focusPart && controlsRef.current && cameraRef.current) {
+                                    const box = modelBoxRef.current; // 使用最终的世界包围盒
+                                    const center = box.getCenter(new THREE.Vector3());
+                                    const modelHeight = box.getSize(new THREE.Vector3()).y;
+
+                                    let targetY;
+                                    let zoomFactor = 0.5; // 默认缩放系数，越小越近
+                                    switch (focusPart) {
+                                        case 'top':
+                                            targetY = box.min.y + modelHeight * 0.65; // <<< 再次降低聚焦 Y 点位 (原为 0.75)
+                                            zoomFactor = 0.7;
+                                            break;
+                                        case 'middle':
+                                            targetY = box.min.y + modelHeight * 0.28; // <<< 再次降低聚焦 Y 点位 (原为 0.35)，使模型上移更多
+                                            zoomFactor = 0.45; // <<< 减小 Zoom Factor 使其更近/放大 (原为 0.55)
+                                            break;
+                                        case 'bottom':
+                                            targetY = box.min.y + modelHeight * 0.15; // 聚焦Y点位 (可调)
+                                            zoomFactor = 0.4; // <<< 减小 Zoom Factor 放大细节 (原为 0.6)
+                                            break;
+                                        default:
+                                            targetY = center.y;
+                                    }
+
+                                    const targetPoint = new THREE.Vector3(center.x, targetY, center.z);
+                                    controlsRef.current.target.copy(targetPoint);
+
+                                    // 调整相机位置以放大 (基于最大维度和缩放系数)
+                                    const distance = maxDim * zoomFactor;
+                                    // 将相机放置在目标点前方，Y 坐标根据平视/俯视调整
+                                    cameraRef.current.position.set(
+                                        targetPoint.x,
+                                        focusPart === 'middle' ? targetPoint.y + distance * 0.05 : // 中部：接近平视 (Y略高一点点)
+                                            focusPart === 'top' ? targetPoint.y + distance * 0.3 : // 顶部：保持俯视
+                                                targetPoint.y - distance * 0.1, // 其他(底部或默认): 略微仰视或根据需要调整
+                                        targetPoint.z + distance
+                                    );
+
+                                    // 强制更新控制器状态
+                                    controlsRef.current.update();
+                                    console.log(`Focused on: ${focusPart}, Target:`, targetPoint, `Cam Pos:`, cameraRef.current.position);
+                                } else {
+                                    // 默认视图：看向模型中心，距离由 maxDim 决定
+                                    cameraRef.current.position.z = maxDim * 1.8 || 8; // 默认距离调整近一点
+                                    cameraRef.current.position.x = 0; // 确保默认在正前方
+                                    cameraRef.current.position.y = modelBoxRef.current ? modelBoxRef.current.getCenter(new THREE.Vector3()).y : 0; // 默认看向中心高度
+                                    if (controlsRef.current && modelBoxRef.current) {
+                                        controlsRef.current.target.copy(modelBoxRef.current.getCenter(new THREE.Vector3()));
+                                        controlsRef.current.update();
+                                    }
+                                }
 
                                 // 创建并开始动画循环
                                 animate = createAnimationLoop(model);
@@ -493,7 +724,7 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                 }
             }
         };
-    }, [canvasId, modelUrl, windowSize.width, windowSize.height, autoRotate, modelColor, showErrorModel, enableControls, showAxesHelper]);
+    }, [canvasId, modelUrl, windowSize.width, windowSize.height, autoRotate, modelColor, showErrorModel, enableControls, showAxesHelper, focusPart, lightingPreset]);
 
     return (
         <div
@@ -516,6 +747,7 @@ const ThreeModel: React.FC<ThreeModelProps> = ({
                 onTouchStart={handleTouchEvent}
                 onTouchMove={handleTouchEvent}
                 onTouchEnd={handleTouchEvent}
+                onTap={handleTap}
             />
             {isLoading && (
                 <div className="loading-container">

@@ -44,7 +44,7 @@ importers:
         version: 4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)
       '@tarojs/plugin-platform-h5':
         specifier: 4.0.9
-        version: 4.0.9(jxrbql4dph4psha6etshrlcmiq)
+        version: 4.0.9(bab82609622b9fd3e269b77d2253a43c)
       '@tarojs/plugin-platform-jd':
         specifier: 4.0.9
         version: 4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)
@@ -86,7 +86,7 @@ importers:
         version: 18.3.1(react@18.2.0)
       taro-ui:
         specifier: ^3.3.0
-        version: 3.3.0(sql7xw6f3lr3ntmpi2itt4myvy)
+        version: 3.3.0(2ee745861e4428d00939ea1340b6b22c)
       three-platformize:
         specifier: ^1.133.3
         version: 1.133.3
@@ -108,7 +108,7 @@ importers:
         version: 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@tarojs/runtime@4.0.9)(@tarojs/shared@4.0.9)
       '@tarojs/test-utils-react':
         specifier: ^0.1.1
-        version: 0.1.1(v3q7h2stb57ifgi7k7dhkm6rwi)
+        version: 0.1.1(be0cd9cfb6a784bed158659f366e2c53)
       '@tarojs/vite-runner':
         specifier: 4.0.9
         version: 4.0.9(@swc/helpers@0.5.15)(@tarojs/runtime@4.0.9)(@types/babel__core@7.20.5)(jiti@1.21.7)(postcss@8.5.3)(rollup@3.29.5)(terser@5.39.0)(typescript@5.8.3)(vite@4.5.12(@types/node@20.17.30)(less@4.3.0)(lightningcss@1.29.3)(sass@1.86.3)(stylus@0.64.0)(terser@5.39.0))
@@ -138,7 +138,7 @@ importers:
         version: 1.13.8
       babel-preset-taro:
         specifier: 4.0.9
-        version: 4.0.9(@babel/core@7.26.10)(@babel/plugin-transform-typescript@7.27.0(@babel/core@7.26.10))(@babel/preset-react@7.26.3(@babel/core@7.26.10))(@react-native/babel-preset@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))(@swc/helpers@0.5.15)(@tarojs/taro-rn@4.0.9(fgad2xjewvlehqdwrlk7o6gp54))(react-refresh@0.11.0)
+        version: 4.0.9(@babel/core@7.26.10)(@babel/plugin-transform-typescript@7.27.0(@babel/core@7.26.10))(@babel/preset-react@7.26.3(@babel/core@7.26.10))(@react-native/babel-preset@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))(@swc/helpers@0.5.15)(@tarojs/taro-rn@4.0.9(df4318a3299f37aa74e2ad17cb989ddf))(react-refresh@0.11.0)
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
@@ -185,8 +185,8 @@ importers:
   packages/server:
     dependencies:
       '@prisma/client':
-        specifier: ^5.10.0
-        version: 5.22.0(prisma@5.22.0)
+        specifier: ^6.6.0
+        version: 6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3)
       '@zhengang-tower/shared':
         specifier: workspace:*
         version: link:../shared
@@ -237,8 +237,8 @@ importers:
         specifier: ^8.4.32
         version: 8.5.3
       prisma:
-        specifier: ^5.10.0
-        version: 5.22.0
+        specifier: ^6.6.0
+        version: 6.6.0(typescript@5.8.3)
       tailwindcss:
         specifier: ^3.4.0
         version: 3.4.17
@@ -2037,29 +2037,35 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prisma/client@5.22.0':
-    resolution: {integrity: sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==}
-    engines: {node: '>=16.13'}
+  '@prisma/client@6.6.0':
+    resolution: {integrity: sha512-vfp73YT/BHsWWOAuthKQ/1lBgESSqYqAWZEYyTdGXyFAHpmewwWL2Iz6ErIzkj4aHbuc6/cGSsE6ZY+pBO04Cg==}
+    engines: {node: '>=18.18'}
     peerDependencies:
       prisma: '*'
+      typescript: '>=5.1.0'
     peerDependenciesMeta:
       prisma:
         optional: true
+      typescript:
+        optional: true
 
-  '@prisma/debug@5.22.0':
-    resolution: {integrity: sha512-AUt44v3YJeggO2ZU5BkXI7M4hu9BF2zzH2iF2V5pyXT/lRTyWiElZ7It+bRH1EshoMRxHgpYg4VB6rCM+mG5jQ==}
+  '@prisma/config@6.6.0':
+    resolution: {integrity: sha512-d8FlXRHsx72RbN8nA2QCRORNv5AcUnPXgtPvwhXmYkQSMF/j9cKaJg+9VcUzBRXGy9QBckNzEQDEJZdEOZ+ubA==}
 
-  '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2':
-    resolution: {integrity: sha512-2PTmxFR2yHW/eB3uqWtcgRcgAbG1rwG9ZriSvQw+nnb7c4uCr3RAcGMb6/zfE88SKlC1Nj2ziUvc96Z379mHgQ==}
+  '@prisma/debug@6.6.0':
+    resolution: {integrity: sha512-DL6n4IKlW5k2LEXzpN60SQ1kP/F6fqaCgU/McgaYsxSf43GZ8lwtmXLke9efS+L1uGmrhtBUP4npV/QKF8s2ZQ==}
 
-  '@prisma/engines@5.22.0':
-    resolution: {integrity: sha512-UNjfslWhAt06kVL3CjkuYpHAWSO6L4kDCVPegV6itt7nD1kSJavd3vhgAEhjglLJJKEdJ7oIqDJ+yHk6qO8gPA==}
+  '@prisma/engines-version@6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a':
+    resolution: {integrity: sha512-JzRaQ5Em1fuEcbR3nUsMNYaIYrOT1iMheenjCvzZblJcjv/3JIuxXN7RCNT5i6lRkLodW5ojCGhR7n5yvnNKrw==}
 
-  '@prisma/fetch-engine@5.22.0':
-    resolution: {integrity: sha512-bkrD/Mc2fSvkQBV5EpoFcZ87AvOgDxbG99488a5cexp5Ccny+UM6MAe/UFkUC0wLYD9+9befNOqGiIJhhq+HbA==}
+  '@prisma/engines@6.6.0':
+    resolution: {integrity: sha512-nC0IV4NHh7500cozD1fBoTwTD1ydJERndreIjpZr/S3mno3P6tm8qnXmIND5SwUkibNeSJMpgl4gAnlqJ/gVlg==}
 
-  '@prisma/get-platform@5.22.0':
-    resolution: {integrity: sha512-pHhpQdr1UPFpt+zFfnPazhulaZYCUqeIcPpJViYoq9R+D/yw4fjE+CtnsnKzPYm0ddUbeXUzjGVGIRVgPDCk4Q==}
+  '@prisma/fetch-engine@6.6.0':
+    resolution: {integrity: sha512-Ohfo8gKp05LFLZaBlPUApM0M7k43a0jmo86YY35u1/4t+vuQH9mRGU7jGwVzGFY3v+9edeb/cowb1oG4buM1yw==}
+
+  '@prisma/get-platform@6.6.0':
+    resolution: {integrity: sha512-3qCwmnT4Jh5WCGUrkWcc6VZaw0JY7eWN175/pcb5Z6FiLZZ3ygY93UX0WuV41bG51a6JN/oBH0uywJ90Y+V5eA==}
 
   '@react-native-async-storage/async-storage@1.21.0':
     resolution: {integrity: sha512-JL0w36KuFHFCvnbOXRekqVAUplmOyT/OuCQkogo6X98MtpSaJOKEAeZnYO8JB0U/RIEixZaGI5px73YbRm/oag==}
@@ -5045,6 +5051,11 @@ packages:
     resolution: {integrity: sha512-D7HeJNdkDKKMarPQO/3dlJT6RwN2YJO7ENU6RPlpOz5YxSHnUNi2yvW41Bckvi1EVwctIaLzlb0ni5ag2GINYA==}
     peerDependencies:
       webpack: ^4.40.0 || ^5.0.0
+
+  esbuild-register@3.6.0:
+    resolution: {integrity: sha512-H2/S7Pm8a9CL1uhp9OvjwrBh5Pvx0H8qVOxNu8Wed9Y7qv56MPtq+GGM8RJpq6glYJn9Wspr8uw7l55uyinNeg==}
+    peerDependencies:
+      esbuild: '>=0.12 <1'
 
   esbuild@0.18.20:
     resolution: {integrity: sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==}
@@ -8381,10 +8392,15 @@ packages:
     resolution: {integrity: sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==}
     engines: {node: '>=4'}
 
-  prisma@5.22.0:
-    resolution: {integrity: sha512-vtpjW3XuYCSnMsNVBjLMNkTj6OZbudcPPTPYHqX0CJfpcdWciI1dM8uHETwmDxxiqEwCIE6WvXucWUetJgfu/A==}
-    engines: {node: '>=16.13'}
+  prisma@6.6.0:
+    resolution: {integrity: sha512-SYCUykz+1cnl6Ugd8VUvtTQq5+j1Q7C0CtzKPjQ8JyA2ALh0EEJkMCS+KgdnvKW1lrxjtjCyJSHOOT236mENYg==}
+    engines: {node: '>=18.18'}
     hasBin: true
+    peerDependencies:
+      typescript: '>=5.1.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   proc-log@4.2.0:
     resolution: {integrity: sha512-g8+OnU/L2v+wyiVK+D5fA34J7EH8jZ8DDlvwhRCMxmMj7UCBvxiO1mGeN+36JXIKF4zevU4kRBd8lVgG9vLelA==}
@@ -12506,30 +12522,38 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prisma/client@5.22.0(prisma@5.22.0)':
+  '@prisma/client@6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3)':
     optionalDependencies:
-      prisma: 5.22.0
+      prisma: 6.6.0(typescript@5.8.3)
+      typescript: 5.8.3
 
-  '@prisma/debug@5.22.0': {}
-
-  '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2': {}
-
-  '@prisma/engines@5.22.0':
+  '@prisma/config@6.6.0':
     dependencies:
-      '@prisma/debug': 5.22.0
-      '@prisma/engines-version': 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2
-      '@prisma/fetch-engine': 5.22.0
-      '@prisma/get-platform': 5.22.0
+      esbuild: 0.25.2
+      esbuild-register: 3.6.0(esbuild@0.25.2)
+    transitivePeerDependencies:
+      - supports-color
 
-  '@prisma/fetch-engine@5.22.0':
-    dependencies:
-      '@prisma/debug': 5.22.0
-      '@prisma/engines-version': 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2
-      '@prisma/get-platform': 5.22.0
+  '@prisma/debug@6.6.0': {}
 
-  '@prisma/get-platform@5.22.0':
+  '@prisma/engines-version@6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a': {}
+
+  '@prisma/engines@6.6.0':
     dependencies:
-      '@prisma/debug': 5.22.0
+      '@prisma/debug': 6.6.0
+      '@prisma/engines-version': 6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a
+      '@prisma/fetch-engine': 6.6.0
+      '@prisma/get-platform': 6.6.0
+
+  '@prisma/fetch-engine@6.6.0':
+    dependencies:
+      '@prisma/debug': 6.6.0
+      '@prisma/engines-version': 6.6.0-53.f676762280b54cd07c770017ed3711ddde35f37a
+      '@prisma/get-platform': 6.6.0
+
+  '@prisma/get-platform@6.6.0':
+    dependencies:
+      '@prisma/debug': 6.6.0
 
   '@react-native-async-storage/async-storage@1.21.0(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))':
     dependencies:
@@ -13097,7 +13121,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@tarojs/components-advanced@4.0.9(tvhnvhcs4lorewp5uwgsrevqhu)':
+  '@tarojs/components-advanced@4.0.9(3cc35f884a50651901264ba340f95736)':
     dependencies:
       '@tarojs/components': 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
       '@tarojs/runtime': 4.0.9
@@ -13142,7 +13166,7 @@ snapshots:
       - webpack-chain
       - webpack-dev-server
 
-  '@tarojs/components-rn@4.0.9(luil74t6gmfqod2mtupuxzbwy4)':
+  '@tarojs/components-rn@4.0.9(4e0d4384c2ebd25d3a69e78d049305e9)':
     dependencies:
       '@ant-design/react-native': 5.0.0(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@react-native-community/cameraroll@4.1.2(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0))(@react-native-community/segmented-control@2.2.2(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0))(@react-native-community/slider@4.4.2)(react-native-gesture-handler@2.14.1(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0))(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0)(typescript@5.8.3)
       '@react-native-community/slider': 4.4.2
@@ -13181,7 +13205,7 @@ snapshots:
   '@tarojs/components@4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))':
     dependencies:
       '@stencil/core': 2.22.3
-      '@tarojs/components-advanced': 4.0.9(tvhnvhcs4lorewp5uwgsrevqhu)
+      '@tarojs/components-advanced': 4.0.9(3cc35f884a50651901264ba340f95736)
       '@tarojs/runtime': 4.0.9
       '@tarojs/shared': 4.0.9
       '@tarojs/taro': 4.0.9(@tarojs/components@4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
@@ -13352,7 +13376,7 @@ snapshots:
       '@tarojs/service': 4.0.9(@swc/helpers@0.5.15)
       '@tarojs/shared': 4.0.9
 
-  '@tarojs/plugin-platform-h5@4.0.9(jxrbql4dph4psha6etshrlcmiq)':
+  '@tarojs/plugin-platform-h5@4.0.9(bab82609622b9fd3e269b77d2253a43c)':
     dependencies:
       '@babel/core': 7.26.10
       '@tarojs/components': 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
@@ -13361,7 +13385,7 @@ snapshots:
       '@tarojs/runtime': 4.0.9
       '@tarojs/service': 4.0.9(@swc/helpers@0.5.15)
       '@tarojs/shared': 4.0.9
-      '@tarojs/taro-h5': 4.0.9(y4wqbyzugsywweanh4jev3h3ki)
+      '@tarojs/taro-h5': 4.0.9(0a26ae3e288976a0eba956b79deb6e16)
       babel-plugin-transform-taroapi: 4.0.9(@babel/core@7.26.10)
       change-case: 4.1.2
       lodash-es: 4.17.21
@@ -13450,9 +13474,9 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
-  '@tarojs/runtime-rn@4.0.9(stsktykbnyz4o7pcuhm2xsdiye)':
+  '@tarojs/runtime-rn@4.0.9(69c13af956b233d7b1637bc3ab3e6400)':
     dependencies:
-      '@tarojs/components-rn': 4.0.9(luil74t6gmfqod2mtupuxzbwy4)
+      '@tarojs/components-rn': 4.0.9(4e0d4384c2ebd25d3a69e78d049305e9)
       '@tarojs/router-rn': 4.0.9(react-native-gesture-handler@2.14.1(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0))(react-native-safe-area-context@4.8.2(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0))(react-native-screens@3.29.0(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0))(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0)
       '@tarojs/shared': 4.0.9
       react: 18.2.0
@@ -13509,7 +13533,7 @@ snapshots:
 
   '@tarojs/shared@4.0.9': {}
 
-  '@tarojs/taro-h5@4.0.9(y4wqbyzugsywweanh4jev3h3ki)':
+  '@tarojs/taro-h5@4.0.9(0a26ae3e288976a0eba956b79deb6e16)':
     dependencies:
       '@tarojs/api': 4.0.9(@tarojs/runtime@4.0.9)(@tarojs/shared@4.0.9)
       '@tarojs/components': 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
@@ -13538,7 +13562,7 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
-  '@tarojs/taro-rn@4.0.9(fgad2xjewvlehqdwrlk7o6gp54)':
+  '@tarojs/taro-rn@4.0.9(df4318a3299f37aa74e2ad17cb989ddf)':
     dependencies:
       '@bam.tech/react-native-image-resizer': 3.0.11(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0)
       '@react-native-async-storage/async-storage': 1.21.0(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))
@@ -13546,7 +13570,7 @@ snapshots:
       '@react-native-clipboard/clipboard': 1.16.2(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0)
       '@react-native-community/geolocation': 3.4.0(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))(react@18.2.0)
       '@react-native-community/netinfo': 11.1.0(react-native@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.3.20)(react@18.2.0))
-      '@tarojs/runtime-rn': 4.0.9(stsktykbnyz4o7pcuhm2xsdiye)
+      '@tarojs/runtime-rn': 4.0.9(69c13af956b233d7b1637bc3ab3e6400)
       '@tarojs/taro': 4.0.9(@tarojs/components@4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
       base64-js: 1.5.1
       deprecated-react-native-prop-types: 5.0.0
@@ -13620,13 +13644,13 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  '@tarojs/test-utils-react@0.1.1(v3q7h2stb57ifgi7k7dhkm6rwi)':
+  '@tarojs/test-utils-react@0.1.1(be0cd9cfb6a784bed158659f366e2c53)':
     dependencies:
       '@babel/runtime': 7.27.0
       '@tarojs/components': 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
       '@tarojs/helper': 4.0.9(@swc/helpers@0.5.15)
       '@tarojs/plugin-framework-react': 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@tarojs/runtime@4.0.9)(@tarojs/shared@4.0.9)(@vitejs/plugin-react@4.3.4(vite@4.5.12(@types/node@20.17.30)(less@4.3.0)(lightningcss@1.29.3)(sass@1.86.3)(stylus@0.64.0)(terser@5.39.0)))(react@18.2.0)(vite@4.5.12(@types/node@20.17.30)(less@4.3.0)(lightningcss@1.29.3)(sass@1.86.3)(stylus@0.64.0)(terser@5.39.0))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
-      '@tarojs/plugin-platform-h5': 4.0.9(jxrbql4dph4psha6etshrlcmiq)
+      '@tarojs/plugin-platform-h5': 4.0.9(bab82609622b9fd3e269b77d2253a43c)
       '@tarojs/react': 4.0.9(react@18.2.0)
       '@tarojs/runtime': 4.0.9
       '@tarojs/shared': 4.0.9
@@ -14880,7 +14904,7 @@ snapshots:
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.1.0(@babel/core@7.26.10)
 
-  babel-preset-taro@4.0.9(@babel/core@7.26.10)(@babel/plugin-transform-typescript@7.27.0(@babel/core@7.26.10))(@babel/preset-react@7.26.3(@babel/core@7.26.10))(@react-native/babel-preset@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))(@swc/helpers@0.5.15)(@tarojs/taro-rn@4.0.9(fgad2xjewvlehqdwrlk7o6gp54))(react-refresh@0.11.0):
+  babel-preset-taro@4.0.9(@babel/core@7.26.10)(@babel/plugin-transform-typescript@7.27.0(@babel/core@7.26.10))(@babel/preset-react@7.26.3(@babel/core@7.26.10))(@react-native/babel-preset@0.78.2(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))(@swc/helpers@0.5.15)(@tarojs/taro-rn@4.0.9(df4318a3299f37aa74e2ad17cb989ddf))(react-refresh@0.11.0):
     dependencies:
       '@babel/core': 7.26.10
       '@babel/plugin-proposal-decorators': 7.25.9(@babel/core@7.26.10)
@@ -14898,7 +14922,7 @@ snapshots:
       core-js: 3.41.0
     optionalDependencies:
       '@babel/preset-react': 7.26.3(@babel/core@7.26.10)
-      '@tarojs/taro-rn': 4.0.9(fgad2xjewvlehqdwrlk7o6gp54)
+      '@tarojs/taro-rn': 4.0.9(df4318a3299f37aa74e2ad17cb989ddf)
       react-refresh: 0.11.0
     transitivePeerDependencies:
       - '@babel/plugin-transform-typescript'
@@ -16340,6 +16364,13 @@ snapshots:
       webpack: 5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))
       webpack-sources: 1.4.3
 
+  esbuild-register@3.6.0(esbuild@0.25.2):
+    dependencies:
+      debug: 4.4.0
+      esbuild: 0.25.2
+    transitivePeerDependencies:
+      - supports-color
+
   esbuild@0.18.20:
     optionalDependencies:
       '@esbuild/android-arm': 0.18.20
@@ -16445,7 +16476,7 @@ snapshots:
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.8.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(eslint@8.57.1)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.5(eslint@8.57.1)
@@ -16482,7 +16513,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.0
@@ -16497,14 +16528,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.8.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -16519,7 +16550,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -20285,11 +20316,15 @@ snapshots:
 
   pretty-time@1.1.0: {}
 
-  prisma@5.22.0:
+  prisma@6.6.0(typescript@5.8.3):
     dependencies:
-      '@prisma/engines': 5.22.0
+      '@prisma/config': 6.6.0
+      '@prisma/engines': 6.6.0
     optionalDependencies:
       fsevents: 2.3.3
+      typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
 
   proc-log@4.2.0: {}
 
@@ -21836,11 +21871,11 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
-  taro-ui@3.3.0(sql7xw6f3lr3ntmpi2itt4myvy):
+  taro-ui@3.3.0(2ee745861e4428d00939ea1340b6b22c):
     dependencies:
       '@tarojs/components': 4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
       '@tarojs/plugin-platform-alipay': 4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)
-      '@tarojs/plugin-platform-h5': 4.0.9(jxrbql4dph4psha6etshrlcmiq)
+      '@tarojs/plugin-platform-h5': 4.0.9(bab82609622b9fd3e269b77d2253a43c)
       '@tarojs/plugin-platform-jd': 4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)
       '@tarojs/plugin-platform-qq': 4.0.9(@tarojs/plugin-platform-weapp@4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9))(@tarojs/shared@4.0.9)
       '@tarojs/plugin-platform-swan': 4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)
@@ -21848,7 +21883,7 @@ snapshots:
       '@tarojs/plugin-platform-weapp': 4.0.9(@tarojs/service@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)
       '@tarojs/react': 4.0.9(react@18.2.0)
       '@tarojs/taro': 4.0.9(@tarojs/components@4.0.9(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(react@18.2.0)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(@tarojs/helper@4.0.9(@swc/helpers@0.5.15))(@tarojs/shared@4.0.9)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(postcss@8.5.3)(rollup@3.29.5)(vue@3.5.13(typescript@5.8.3))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15))))(webpack@5.91.0(@swc/core@1.3.96(@swc/helpers@0.5.15)))
-      '@tarojs/taro-rn': 4.0.9(fgad2xjewvlehqdwrlk7o6gp54)
+      '@tarojs/taro-rn': 4.0.9(df4318a3299f37aa74e2ad17cb989ddf)
       classnames: 2.5.1
       dayjs: 1.11.13
       lodash: 4.17.21
