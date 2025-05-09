@@ -43,4 +43,6 @@ node_modules/
 **/*.tsbuildinfo
 **/.next-env.d.ts 
 
-.cursor
+.cursor/
+.cursor/**
+**/.cursor/
