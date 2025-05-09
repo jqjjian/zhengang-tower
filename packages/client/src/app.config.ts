@@ -49,7 +49,8 @@ export default {
             pages: [
                 'top/index',
                 'middle/index',
-                'bottom/index'
+                'bottom/index',
+                'componentDetail/index'
             ],
             independent: false // 非独立分包
         }
@@ -63,6 +64,7 @@ export default {
     },
     // 添加WebGL支持
     requiredBackgroundModes: ['webgl'],
+    enableCSS3D: true,
     // 开启相机权限（如果需要AR功能）
     permission: {
         'scope.camera': {

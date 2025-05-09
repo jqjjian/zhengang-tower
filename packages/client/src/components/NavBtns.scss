@@ -4,7 +4,7 @@
     position: fixed;
     left: 63px;
     bottom: 88px;
-    z-index: 100;
+    z-index: 9999999;
     gap: 22px;
     .nav-title {
         font-size: 18px;
@@ -40,6 +40,18 @@
         &.home-btn {
             &:before {
                 background-image: url('~@/static/images/home.webp');
+                background-size: 100% 100%;
+            }
+        }
+        &.bill-btn {
+            &:before {
+                background-image: url('~@/static/images/bell.webp');
+                background-size: 100% 100%;
+            }
+        }
+        &.component-btn {
+            &:before {
+                background-image: url('~@/static/images/component.webp');
                 background-size: 100% 100%;
             }
         }

@@ -8,7 +8,7 @@ export default function TowerBottomDetail() {
     const [isModelLoading, setIsModelLoading] = useState(true);
 
     // !!! 使用主塔模型 URL !!!
-    const mainTowerModelUrl = `${RESOURCE_URL}/models/Tower.glb`; // 使用主塔模型
+    const mainTowerModelUrl = `${RESOURCE_URL}/models/Tower0425a.glb`; // 使用主塔模型
 
     const handleModelLoad = () => {
         console.log('下部细节模型加载完成');

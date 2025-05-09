@@ -37,7 +37,7 @@ export default function TowerMiddleDetail() {
                     backgroundColor="transparent" // 或其他背景色
                     autoRotate={false}     // 细节视图通常不需要自动旋转
                     enableControls={true}   // 允许用户交互
-                    focusPart="middle"     // <<< 指定聚焦到中部
+                    // focusPart="middle"     // <<< 指定聚焦到中部
                     lightingPreset="default" // <<< 指定使用细节光照
                     onLoad={handleModelLoad}
                 />

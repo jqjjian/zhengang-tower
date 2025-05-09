@@ -27,6 +27,9 @@ const MIME_TYPES: Record<string, string> = {
 // 长缓存的资源类型
 const LONG_CACHE_EXTS = ['.glb', '.gltf', '.obj', '.fbx', '.jpg', '.png', '.webp'];
 
+export async function generateStaticParams() {
+    return [{ path: ['default'] }]; // 预生成默认路径  
+}
 /**
  * 处理静态资源请求
  */
@@ -36,6 +39,7 @@ export async function GET(
 ) {
     try {
         // 确保params.path是可用的
+        console.log('params:', params);
         const pathArray = Array.isArray(params.path) ? params.path : [];
         console.log('路径参数:', pathArray);
 

@@ -1,12 +1,14 @@
 import { View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { ArrowLeft, Home } from '@nutui/icons-react-taro'
+// import { ArrowLeft, Home } from '@nutui/icons-react-taro'
 import './NavBtns.scss'
 
 interface NavBtnsProps {
     title?: string
     showBack?: boolean
     showHome?: boolean
+    showBill?: boolean
+    showComponent?: boolean
     backText?: string
     homeText?: string
     onBack?: () => void
@@ -22,6 +24,8 @@ export default function NavBtns({
     title = '',
     showBack = true,
     showHome = true,
+    showBill = false,
+    showComponent = false,
     backText = '返回',
     homeText = '首页',
     onBack,
@@ -35,7 +39,6 @@ export default function NavBtns({
         } else {
             // 使用try-catch避免TypeScript的类型错误
             try {
-                // @ts-ignore
                 Taro.navigateBack({ delta: 1 })
             } catch (e) {
                 handleHome()
@@ -49,14 +52,21 @@ export default function NavBtns({
             onHome()
         } else {
             try {
-                // @ts-ignore - 不使用switchTab，直接使用redirectTo
                 Taro.redirectTo({ url: '/pages/index/index' })
             } catch (error) {
                 console.error('导航到首页失败', error)
             }
         }
     }
-
+    // 重置风铃
+    const handleBill = () => {
+        console.log('重置风铃')
+    }
+    // 构件
+    const handleComponent = () => {
+        Taro.navigateTo({ url: '/subPackages/towerDetail/componentDetail/index' })
+        console.log('组件')
+    }
     return (
         <View className='nav-btns' style={customStyle}>
             {/* {title && <View className='nav-title'>{title}</View>} */}
@@ -66,7 +76,16 @@ export default function NavBtns({
                     <Text>{backText}</Text>
                 </View>
             )}
-
+            {showComponent && (
+                <View className='nav-btn component-btn' onClick={handleComponent}>
+                    <Text>{'查看构件'}</Text>
+                </View>
+            )}
+            {showBill && (
+                <View className='nav-btn bill-btn' onClick={handleBill}>
+                    <Text>{'重置风铃'}</Text>
+                </View>
+            )}
             {showHome && (
                 <View className='nav-btn home-btn' onClick={handleHome}>
                     <Text>{homeText}</Text>
